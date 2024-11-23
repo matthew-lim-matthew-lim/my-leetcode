@@ -12,6 +12,8 @@ public:
     };
 
     vector<vector<int>> threeSum(vector<int>& nums) {
+        // Solved in 42:30
+        
         // Select a number, and then use 2 pointers.
         // By first selecting a number, we have converted the problem into a 2 sum problem. 
 
