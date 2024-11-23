@@ -32,6 +32,9 @@ public:
 
         // Select one number to be the starting number. 
         for (int i = 0; i < nums.size(); i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
             // Perform 2 pointers to select the other 2 numbers.
             int l_ptr = i + 1;
             int r_ptr = nums.size() - 1;
