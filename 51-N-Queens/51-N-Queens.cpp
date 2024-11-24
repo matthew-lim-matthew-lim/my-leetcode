@@ -78,6 +78,10 @@ public:
     }
 
     vector<vector<string>> solveNQueens(int n) {
+        // Took 55:00
+        // Was really tricky to think of a nice way to do it, but realise that bruteforcing with backtracking
+        // could be a straightforward way as long as there is a way to track the available squares.
+
         // Restrictions:
         // No 2 queens on same row. 
         // No 2 queens on same column.
@@ -87,21 +91,10 @@ public:
         vector<string> curr_res(n, string(n, '.'));
         // The current board availabilities, where 'x' is for the squares that can't be occupied. 
         vector<vector<int>> curr_available(n, vector<int>(n, 0));
-        // vector<vector<int>> curr_available(10, vector<int>(10, 0));
 
         int queen_count = 0;
 
         backtrack(res, curr_available, curr_res, n, queen_count, 0, 0);
-
-        // increment_hits(curr_available, 10, 3, 4);
-        // for (vector<int> vec : curr_available) {
-        //     for (int cell : vec) {
-        //         cout << cell;
-        //     }
-
-        //     cout << endl;
-        // } 
-        // decrement_hits(curr_available, 10, 3, 4);
 
         return res;
     }
