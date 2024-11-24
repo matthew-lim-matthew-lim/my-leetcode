@@ -24,12 +24,12 @@ public:
 
         // Diagonals
         diagonal_processing(curr_available, n, y, x, 1, 1, 1);
-        diagonal_processing(curr_available, n, y, x, -1, 1, 1);
+        // diagonal_processing(curr_available, n, y, x, -1, 1, 1);
         diagonal_processing(curr_available, n, y, x, 1, -1, 1);
-        diagonal_processing(curr_available, n, y, x, -1, -1, 1);
+        // diagonal_processing(curr_available, n, y, x, -1, -1, 1);
 
         // The current square was counted 6 times.
-        curr_available[y][x] -= 5;
+        curr_available[y][x] -= 3;
     }
 
     void decrement_hits(vector<vector<int>>& curr_available, int n, int y, int x) {
@@ -42,12 +42,12 @@ public:
 
         // Diagonals
         diagonal_processing(curr_available, n, y, x, 1, 1, -1);
-        diagonal_processing(curr_available, n, y, x, -1, 1, -1);
+        // diagonal_processing(curr_available, n, y, x, -1, 1, -1);
         diagonal_processing(curr_available, n, y, x, 1, -1, -1);
-        diagonal_processing(curr_available, n, y, x, -1, -1, -1);
+        // diagonal_processing(curr_available, n, y, x, -1, -1, -1);
 
         // The current square was counted 6 times.
-        curr_available[y][x] += 5;
+        curr_available[y][x] += 3;
     }
 
     void backtrack(vector<vector<string>>& res, 
