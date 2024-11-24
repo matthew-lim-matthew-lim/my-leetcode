@@ -24,9 +24,7 @@ public:
 
         // Diagonals
         diagonal_processing(curr_available, n, y, x, 1, 1, 1);
-        // diagonal_processing(curr_available, n, y, x, -1, 1, 1);
         diagonal_processing(curr_available, n, y, x, 1, -1, 1);
-        // diagonal_processing(curr_available, n, y, x, -1, -1, 1);
 
         // The current square was counted 6 times.
         curr_available[y][x] -= 3;
@@ -41,10 +39,10 @@ public:
         }
 
         // Diagonals
+        // Only need to process the direction of increasing 'y' since our algorithm goes row-by-row 
+        // meaning that later queens cannot be placed in the rows that have already been processed. 
         diagonal_processing(curr_available, n, y, x, 1, 1, -1);
-        // diagonal_processing(curr_available, n, y, x, -1, 1, -1);
         diagonal_processing(curr_available, n, y, x, 1, -1, -1);
-        // diagonal_processing(curr_available, n, y, x, -1, -1, -1);
 
         // The current square was counted 6 times.
         curr_available[y][x] += 3;
@@ -55,8 +53,7 @@ public:
                     vector<string>& curr_res, 
                     int n, 
                     int queen_count,
-                    int curr_y,
-                    int curr_x
+                    int curr_y
     ) {
         if (queen_count == n) {
             res.push_back(curr_res);
@@ -70,7 +67,7 @@ public:
                 }
                 curr_res[i][j] = 'Q';
                 increment_hits(curr_available, n, i, j);
-                backtrack(res, curr_available, curr_res, n, queen_count + 1, i, j);
+                backtrack(res, curr_available, curr_res, n, queen_count + 1, i);
                 decrement_hits(curr_available, n, i, j);
                 curr_res[i][j] = '.';
             }
@@ -94,7 +91,7 @@ public:
 
         int queen_count = 0;
 
-        backtrack(res, curr_available, curr_res, n, queen_count, 0, 0);
+        backtrack(res, curr_available, curr_res, n, queen_count, 0);
 
         return res;
     }
