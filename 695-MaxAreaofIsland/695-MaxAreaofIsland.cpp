@@ -17,13 +17,13 @@ public:
                     // bfs
                     stack<pair<int, int>> bfs_stack;
                     bfs_stack.push({i, j});
+                    explored[i][j] = true;
 
                     while (!bfs_stack.empty()) {
                         pair<int, int> curr_pos = bfs_stack.top();
                         bfs_stack.pop();
                         int y = curr_pos.first;
                         int x = curr_pos.second;
-                        explored[y][x] = true;
                         curr_island_area++;
                         if (y + 1 < grid.size() && grid[y + 1][x] == 1 && explored[y + 1][x] == false) {
                             bfs_stack.push({y + 1, x});
