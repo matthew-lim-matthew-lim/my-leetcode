@@ -1,16 +1,8 @@
-class Solution {
-public:
-    string addSpaces(string s, vector<int>& spaces) {
-        string newstr;
-        int spaces_index = 0;
-        for (int i = 0; i < s.size(); i++) {
-            if (spaces_index < spaces.size() && spaces[spaces_index] == i) {
-                newstr += " ";
-                spaces_index++;
-            } 
-            newstr += s[i];
-        }
-
-        return newstr;
-    }
-};
+// 1. Initializing a new stringstream object
+stringstream result;
+// 2. Inserting a space into the stringstream
+result << ' ';
+// 3. Inserting the character at the specified index from the string `s`
+result << s[stringIndex];
+// 4. Converting the stringstream to a string
+string finalString = result.str();
