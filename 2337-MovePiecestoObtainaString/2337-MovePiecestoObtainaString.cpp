@@ -28,18 +28,16 @@ public:
 
             // If the target currently has less 'L' in this position.
             if (L_count_T < L_count_S) {
-                cout << "1" << endl;
                 return false;
             }
             // If the target currently has more 'R' in this position.
             if (R_count_S < R_count_T) {
-                cout << "2" << endl;
                 return false;
             }
         }
 
+        // If the order of 'L' and 'R' are not the same for source and target
         if (LR_order_S != LR_order_T) {
-            cout << "3" << endl;
             return false;
         }
 
