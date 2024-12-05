@@ -27,16 +27,19 @@ public:
             }
 
             // If the target currently has less 'L' in this position.
+            // This is because we can't possibly move a 'L' piece right.
             if (L_count_T < L_count_S) {
                 return false;
             }
             // If the target currently has more 'R' in this position.
+            // This is because we can't possibly move a 'L' piece left.
             if (R_count_S < R_count_T) {
                 return false;
             }
         }
 
-        // If the order of 'L' and 'R' are not the same for source and target
+        // If the order of 'L' and 'R' are not the same for source and target.
+        // This is because a 'L' piece can't move over an 'R' piece, and vice versa.
         if (LR_order_S != LR_order_T) {
             return false;
         }
