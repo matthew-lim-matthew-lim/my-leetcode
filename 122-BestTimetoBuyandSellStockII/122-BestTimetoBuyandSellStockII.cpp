@@ -18,7 +18,8 @@ public:
                 }
             }
         } 
-
+        
+        // We return dp[0][1] (buy state) because the buy state accounts for the price we paid. 
         return dp[0][1];
     }
 };
