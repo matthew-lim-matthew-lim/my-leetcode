@@ -22,13 +22,6 @@ public:
             }
         }
 
-        // for (int i = 0; i < nums.size(); i++) {
-        //     for (int j = -curr_nums_sum; j <= curr_nums_sum; j++) {
-        //         cout << dp[i][nums_sum + j];
-        //     }
-        //     cout << endl;
-        // }
-
         return dp[nums.size() - 1][nums_sum + target];
     }
 };
