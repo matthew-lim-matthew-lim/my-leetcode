@@ -33,12 +33,7 @@ public:
                     res.insert(new_string);
                 }
             }
-            // cout << s[i] << endl;
         }
-
-        // for (string s : res) {
-        //     cout << s << endl;
-        // }
 
         return res.size();
     }
