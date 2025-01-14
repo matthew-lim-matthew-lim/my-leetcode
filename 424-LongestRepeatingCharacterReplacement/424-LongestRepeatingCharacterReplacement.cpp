@@ -15,7 +15,6 @@ public:
         for (int r_ptr = 0; r_ptr < s.size(); r_ptr++) {
             char_map[s[r_ptr] - 'A']++;
             int highest_count = *max_element(char_map.begin(), char_map.end());
-            // cout << (r_ptr - l_ptr + 1) << " " << highest_count + k << endl;
             if (!((r_ptr - l_ptr + 1) > highest_count + k)) {
                 res = max(res, r_ptr - l_ptr + 1);
             }
