@@ -21,6 +21,8 @@ public:
                 for (int neigh : adjList[curr]) {
                     if (amortReqs[node].contains(neigh)) continue;
                     if (amortReqs[neigh].size() > 0) {
+                        // If we already explored this node, then we can just add all the requirements for that
+                        // node, and skip exploring that node.
                         amortReqs[node].insert(amortReqs[neigh].begin(), amortReqs[neigh].end());
                         continue;
                     }
