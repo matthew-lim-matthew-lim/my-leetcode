@@ -4,7 +4,6 @@ public:
         // The graph is a DAG.
         // The main restriction is the number of queries is up to 10^4. The number of node is at max 100.
         // For each query [ u, j ], check if you can reach j from u. 
-
         vector<vector<int>> adjList(numCourses, vector<int>());
         for (vector<int>& prereq : prerequisites) {
             adjList[prereq[0]].push_back(prereq[1]);
@@ -21,6 +20,9 @@ public:
                 q.pop();
                 for (int neigh : adjList[curr]) {
                     if (amortReqs[node].contains(neigh)) continue;
+                    if (amortReqs[neigh].size() > 0) {
+                        amortReqs[node].insert(amortReqs[neigh].begin(), amortReqs[neigh].end());
+                    }
                     amortReqs[node].insert(neigh);
                     q.push(neigh);
                 }
