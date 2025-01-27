@@ -22,6 +22,7 @@ public:
                     if (amortReqs[node].contains(neigh)) continue;
                     if (amortReqs[neigh].size() > 0) {
                         amortReqs[node].insert(amortReqs[neigh].begin(), amortReqs[neigh].end());
+                        continue;
                     }
                     amortReqs[node].insert(neigh);
                     q.push(neigh);
