@@ -20,14 +20,12 @@ public:
                 stack<pair<int, int>> stk;
                 stk.push({ i, j });
                 visited[i][j] = true;
-                cout << i << " : " << j << endl;
                 while (!stk.empty()) {
                     pair<int, int> curr = stk.top();
                     stk.pop();
                     int y = curr.first;
                     int x = curr.second;
                     currFish += grid[y][x];
-                    cout << y << " " << x << endl;
                     res = max(res, currFish);
 
                     if (y + 1 < n && visited[y + 1][x] == false && grid[y + 1][x] != 0) {
@@ -47,7 +45,6 @@ public:
                         stk.push({ y, x - 1 });
                     }
                 }
-                cout << currFish << endl;
             }
         }
 
