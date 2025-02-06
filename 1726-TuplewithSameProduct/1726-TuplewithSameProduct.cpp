@@ -16,8 +16,6 @@ public:
     int tupleSameProduct(vector<int>& nums) {
         
         // Each combination unique [a, b, c, d] where (a, b) and (c, d) are in any position, has 8 arrangements. 
-        // Consider each combination of 4 numbers that produces that result we need. 
-        // Sort the combination so that we can check in a 4d matrix to see if that combination has been used.
         int n = nums.size();
 
         // We should be able to do this in O(n^2)
