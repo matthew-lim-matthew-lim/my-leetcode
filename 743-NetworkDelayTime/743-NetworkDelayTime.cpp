@@ -27,7 +27,6 @@ public:
             for (pair<int, int> edge : adjList[u]) {
                 int w = edge.second;
                 int v = edge.first;
-                cout << u << " " << v << " " << w << endl;
                 if (dist[u] + w < dist[v]) {
                     dist[v] = dist[u] + w;
                     pq.push({ dist[v], v });
@@ -38,7 +37,6 @@ public:
         // Get the max distance to reach all the nodes.
         int res = -1;
         for (int i = 1; i < n + 1; i++) {
-            cout << dist[i] << endl;
             res = max(res, dist[i]);
         }
 
