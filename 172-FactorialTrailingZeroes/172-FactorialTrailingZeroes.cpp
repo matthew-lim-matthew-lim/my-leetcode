@@ -1,6 +1,7 @@
 class Solution {
 public:
     int trailingZeroes(int n) {
+        // Find the number of 2 and 5 factors across the entire operation of 1 * 2 * 3 * ... * (n - 1) * n.
         int num2 = 0;
         int num5 = 0;
 
