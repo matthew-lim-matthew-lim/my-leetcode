@@ -89,7 +89,6 @@ public:
                 Node* secLast = tail->rNext;
 
                 nodeMap.erase(tail->key);
-                cout << "erasing: " << tail->key << endl;
                 delete secLast->next;
                 secLast->next = nullptr;
 
