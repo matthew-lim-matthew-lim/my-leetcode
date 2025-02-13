@@ -1,42 +1,32 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class BSTIterator {
 public:
-    vector<int> flatTree; 
-    int currIndex = -1;
-
-    void traverse(TreeNode* curr) {
-        if (curr->left != nullptr) traverse(curr->left);
-        flatTree.push_back(curr->val);
-        if (curr->right != nullptr) traverse(curr->right);
-    }
-
-    BSTIterator(TreeNode* root) {
-        traverse(root);
+    int n,i;
+    vector<int> treeval;
+    
+    BSTIterator(TreeNode* root) {        
+        inorder(root,treeval);
+        n=treeval.size();
+        i=0;
     }
     
+    /** @return the next smallest number */
     int next() {
-        currIndex++;
-        return flatTree[currIndex];
+        i++;
+        return treeval[i-1];
     }
     
+    /** @return whether we have a next smallest number */
     bool hasNext() {
-        return currIndex + 1< flatTree.size();
+        if(i<n) return true;
+        return false;
+    }
+    
+    void inorder(TreeNode* root, vector<int>& treeval){
+        if(root==NULL){
+            return ;
+        }
+        inorder(root->left, treeval);
+        treeval.push_back(root->val);
+        inorder(root->right, treeval);
     }
 };
-
-/**
- * Your BSTIterator object will be instantiated and called as such:
- * BSTIterator* obj = new BSTIterator(root);
- * int param_1 = obj->next();
- * bool param_2 = obj->hasNext();
- */
