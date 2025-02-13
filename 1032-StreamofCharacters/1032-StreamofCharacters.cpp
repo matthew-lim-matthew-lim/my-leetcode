@@ -1,31 +1,46 @@
+// Basically, do BFS using a trie.
+
+class TrieNode {
+public:
+    unordered_map<char, TrieNode*> tMap;
+    bool word = false;
+};
+
 class StreamChecker {
 private:
-    vector<string> words_;
+    TrieNode* root = new TrieNode();
     string bigWord;
 public:
     StreamChecker(vector<string>& words) {
-        words_ = words;
+        // Build the trie.
+        TrieNode* curr;
+        for (string& word : words) {
+            curr = root;
+            for (int i = word.size() - 1; i >= 0; --i) {
+                if (!curr->tMap.contains(word[i])) {
+                    curr->tMap[word[i]] = new TrieNode({}, false);
+                }
+                curr = curr->tMap[word[i]];
+                if (i == 0) {
+                    curr->word = true;
+                }
+            }
+        }
     }
     
     bool query(char letter) {
-        // Query builds a string. Check if any suffix of that string is in words.
         bigWord += letter;
 
-        for (string& word : words_) {
-            // Go backwards from each word to see if it works.
-            if (word.size() > bigWord.size()) {
-                continue;
+        // Explore the trie
+        TrieNode* curr = root;
+        for (int i = bigWord.size() - 1; i >= 0; --i) {
+            if (!curr->tMap.contains(bigWord[i])) {
+                return false;
             }
-            bool match = true;
-            for (int i = 0; i < word.size(); i++) {
-                if (word[(word.size() - 1) - i] != bigWord[(bigWord.size() - 1) - i]) {
-                    match = false;
-                    break;
-                }
-            }
-            if (match) {
+            curr = curr->tMap[bigWord[i]];
+            if (curr->word == true) {
                 return true;
-            }
+            } 
         }
         return false;
     }
