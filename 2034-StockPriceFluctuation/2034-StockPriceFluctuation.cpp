@@ -1,7 +1,9 @@
 class StockPrice {
 private:
-    map<int, int> priceMap;
+    unordered_map<int, int> priceMap;
     map<int, int> priceCount;
+    int lastPrice;
+    int lastTimestamp;
 
 public:
     StockPrice() {
@@ -9,6 +11,10 @@ public:
     }
     
     void update(int timestamp, int price) {
+        if (timestamp >= lastTimestamp) {
+            lastTimestamp = timestamp;
+            lastPrice = price;
+        }
         if (priceMap.contains(timestamp)) {
             priceCount[priceMap[timestamp]]--;
             if (priceCount[priceMap[timestamp]] == 0) {
@@ -20,7 +26,7 @@ public:
     }
     
     int current() {
-        return priceMap.rbegin()->second;
+        return lastPrice;
     }
     
     int maximum() {
