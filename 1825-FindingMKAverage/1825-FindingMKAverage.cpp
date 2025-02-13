@@ -1,3 +1,4 @@
+const auto _ = std::cin.tie(nullptr)->sync_with_stdio(false);
 #define HI_THERE
 #ifdef HI_THERE
 const auto __ = []() {
