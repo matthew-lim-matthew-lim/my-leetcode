@@ -5,7 +5,6 @@ public:
         // Number divided by itself is 1.
 
         unordered_map<string, unordered_map<string, double>> equVals;
-        unordered_map<string, unordered_set<string>> mapToFirst;
         for (int i = 0; i < equations.size(); i++) {
             string q1 = equations[i][0];
             string q2 = equations[i][1];
@@ -41,7 +40,7 @@ public:
             string q2 = q[1];
 
             // Check if either q1 or q2 is undefined. 
-            if ((!equVals.contains(q1) && !mapToFirst.contains(q1)) || (!equVals.contains(q2) && !mapToFirst.contains(q2))) {
+            if (!equVals.contains(q1) || !equVals.contains(q2)) {
                 res.push_back(-1);
                 continue;
             }
