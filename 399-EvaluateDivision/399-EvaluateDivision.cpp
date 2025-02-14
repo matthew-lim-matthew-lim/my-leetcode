@@ -56,17 +56,12 @@ public:
             // Is this simply [q2, q1] = 1 / [q1, q2]
             if (equVals[q2].contains(q1)) {
                 res.push_back(1 / equVals[q2][q1]);
-                found = true;
-            }
-            if (found) {
                 continue;
             }
+
             // Is this simply [q1, q2]
             if (equVals[q1].contains(q2)) {
                 res.push_back(equVals[q1][q2]);
-                found = true;
-            }
-            if (found) {
                 continue;
             }
 
