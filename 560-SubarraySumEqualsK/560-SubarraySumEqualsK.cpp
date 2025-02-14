@@ -5,24 +5,7 @@ public:
         int lptr = 0;
         int n = nums.size();
         int res = 0;
-        // int currSum = 0;
-        // for (int rptr = 0; rptr < n; rptr++) {
-        //     currSum += nums[rptr];
-        //     while (currSum > k && lptr < rptr) {
-        //         currSum -= nums[lptr];
-        //         lptr++;
-        //     }
-        //     if (currSum == k) {
-        //         res++;
-        //     } 
-        //     while (rptr == n - 1 && lptr < n) {
-        //         currSum -= nums[lptr];
-        //         lptr++;
-        //         if (currSum == k) {
-        //             res++;
-        //         } 
-        //     }
-        // }
+
 
         // Prefix sum
         vector<int> prefix(n + 1, 0);
