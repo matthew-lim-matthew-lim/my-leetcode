@@ -1,25 +1,44 @@
+#include <ranges>
+
 class Solution {
 public:
-    void backtrack(unordered_map<char, int> chars, string currString, unordered_set<string>& res) {
-        for (pair<char, int> c : chars) {
-            string newString = currString + c.first;
-            if (c.second > 0 && !res.contains(newString)) {
-                res.insert(newString);
-                chars[c.first]--;
-                backtrack(chars, newString, res);
-                chars[c.first]++;
-            }
-        }
-    }
-
     int numTilePossibilities(string tiles) {
-        // Backtracking using a set?
-        unordered_set<string> res;
-        unordered_map<char, int> chars;
-        for (char c : tiles) {
-            chars[c]++;
-        }
-        backtrack(chars, "", res);
-        return res.size();
+        int ans = 0;
+        
+        array<int, 26> freq = {};
+        for (char c : tiles)
+            freq[c - 'A']++;
+
+        array<int, 8> fac = {1};
+        for (int n = 1; n < fac.size(); n++)
+            fac[n] = n * fac[n-1];
+
+        auto C = [&](int n, int k) -> int {
+            assert(k <= n);
+            return fac[n] / (fac[k] * fac[n - k]);
+        };
+
+        vector<array<int, 26>> dp(tiles.size() + 1);
+        ranges::fill(ranges::join_view(dp), -1);
+
+        auto dfs = [&](this const auto &self, int pos, int spaces) -> int {
+            if (pos >= freq.size())
+                return spaces == 0;
+
+            if (dp[spaces][pos] != -1)
+                return dp[spaces][pos];
+
+            int res = 0;
+
+            for (int use = 0; use <= min(spaces, freq[pos]); use++)
+                res += C(spaces, use) * self(pos + 1, spaces - use);
+
+            return dp[spaces][pos] = res;
+        };
+
+        for (int spaces = 1; spaces <= tiles.size(); spaces++)
+            ans += dfs(0, spaces);
+
+        return ans;
     }
-};
+}
