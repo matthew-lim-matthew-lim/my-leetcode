@@ -22,10 +22,8 @@ public:
             } else {
                 nextLen /= 2;
             }
-            // cout << currLen << " " << nextLen << endl;
             int nextIndex = nextK / nextLen;
             nextK = nextK % nextLen;
-            // cout << nextIndex;
             int nextCharIndex = -1;
             while (nextIndex >= 0) {
                 nextCharIndex++;
