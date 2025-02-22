@@ -44,8 +44,6 @@ public:
             }
             int numInt = stoi(numString);
         
-            cout << numInt << endl;
-            cout << "dashCount: " << dashCount << endl;
             TreeNode* parent = depthMap[dashCount - 1];
             
 
