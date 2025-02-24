@@ -26,7 +26,6 @@ public:
                 break;
             }
             for (int neigh : adjList[currNode]) {
-                // cout << neigh << endl;
                 if (prev[neigh].first == -1) {
                     q.push({ neigh, currLvl + 1 });
                     prev[neigh] = { currNode, currLvl + 1 };
@@ -41,14 +40,6 @@ public:
             bobArrive[bobCurr] = prev[bobCurr].second;
         }
 
-        // cout << "res:" << endl;
-
-        // for (int i : bobArrive) {
-        //     cout << i << endl;
-        // }
-
-        // cout << "qAlice:" << endl;
-
         // BFS for Alice to find the cheapest path
         queue<vector<int>> qAlice;
         vector<bool> visited(edges.size() + 1, false);
@@ -61,7 +52,6 @@ public:
             int currNode = frontVec[0];
             int currLvl = frontVec[1];
             int currVal = frontVec[2];
-            // cout << currNode << " " << currVal << endl;
             qAlice.pop();
 
             if (adjList[currNode].size() == 1 && visited[adjList[currNode][0]] == true) {
@@ -69,7 +59,6 @@ public:
             } 
 
             for (int neigh : adjList[currNode]) {
-                // cout << neigh << endl;
                 if (visited[neigh] == false) {
                     visited[neigh] = true;
                     // Determine if visited
