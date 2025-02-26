@@ -7,7 +7,6 @@ public:
 
         for (int i = 1; i < n + 1; i++) {
             prefix[i] = prefix[i - 1] + nums[i - 1];
-            cout << prefix[i] << endl;
         }
 
         int maxVal = *max_element(prefix.begin(), prefix.end());
