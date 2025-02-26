@@ -2,7 +2,6 @@ class Solution {
 public:
     int maxAbsoluteSum(vector<int>& nums) {
         // Prefix sum, and then find the largest and smallest values. 
-        int n = nums.size();
         int prefix = 0;
         int minVal = 0;
         int maxVal = 0;
