@@ -18,14 +18,6 @@ public:
             }
         }
 
-        // for (int i = 1; i <= n; i++) {
-        //     // Each letter in text1
-        //     for (int j = 1; j <= m; j++) {
-        //         cout << dp[i][j] << " ";
-        //     }
-        //     cout << endl;
-        // }
-
         return dp[n][m];
     }
 };
