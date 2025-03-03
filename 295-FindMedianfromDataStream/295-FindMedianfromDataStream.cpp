@@ -1,4 +1,8 @@
-// Inserting into a std::set does not invalidate the iterators since it uses a balanced bst.
+// Inserting into a std::set or std::map does not invalidate the iterators since it uses a balanced bst.
+
+// Store the entires into a std::map, including the count of each element. 
+// Keep track of the map size and the current map index.
+// When `findMedian()` is called, move the mapIndex to the correct index as per mapSize. 
 
 class MedianFinder {
 public:
@@ -12,8 +16,6 @@ public:
     MedianFinder() {
         
     }
-
-    // 0100
     
     void addNum(int num) {
         mapSize++;
@@ -29,8 +31,6 @@ public:
     }
     
     double findMedian() {
-        cout << "findMedian" << endl;
-        cout << mapIndex << " " << (mapSize / 2.0) << " " << mapSize << endl;
         while (mapIndex < (mapSize / 2.0) - 1) {
             mapIndex++;
             currIndex++;
@@ -47,8 +47,6 @@ public:
                 currIndex = currIter->second.size() - 1;
             }
         }
-        cout << mapIndex << " " << (mapSize / 2.0) << " " << mapSize << endl;
-        // cout << currIter->first << " " << currIndex << endl;
         if (mapSize % 2 == 0) {
             auto iterCopy = currIter;
             int indexCopy = currIndex;
@@ -60,8 +58,6 @@ public:
         } else {
             return currIter->first;
         }
-
-        // -1, -2, -3, -4, -5
     }
 };
 
