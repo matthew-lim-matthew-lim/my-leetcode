@@ -35,6 +35,36 @@ public:
         {1000000000, "Billion"}
     };
 
+    vector<string> deconstructThreeDigits(int curr) {
+        vector<string> words;
+
+        int index;
+        int firstTwoDigits = curr % 100;
+        // First digit
+        if (firstTwoDigits >= 10 && firstTwoDigits <= 20) {
+            words.push_back(d[firstTwoDigits]);
+        } else {
+            index = firstTwoDigits % 10;
+            if (index > 0) {
+                words.push_back(d[index]);
+            }
+            // Second digit
+            index = firstTwoDigits % 100 - index;
+            if (index > 0) {
+                words.push_back(d[index]);
+            }
+        }
+
+        // Third digit
+        index = curr / 100;
+        if (index > 0) {
+            words.push_back(d[100]);
+            words.push_back(d[index]);
+        }
+
+        return words;
+    }
+
     string numberToWords(int num) {
         // Gotta say like "Hundred" "Thousand" "Million" etc
         // Split into place values and then add those. At most each split has 3 values -> a hundred.
@@ -47,117 +77,32 @@ public:
         // At most curr is a 3 digit number
         int curr = num % 1000;
         if (curr > 0) {
-            int index;
-            int firstTwoDigits = curr % 100;
-            // First digit
-            if (firstTwoDigits >= 10 && firstTwoDigits <= 20) {
-                words.push_back(d[firstTwoDigits]);
-            } else {
-                index = firstTwoDigits % 10;
-                if (index > 0) {
-                    words.push_back(d[index]);
-                }
-                // Second digit
-                index = firstTwoDigits % 100 - index;
-                if (index > 0) {
-                    words.push_back(d[index]);
-                }
-            }
-
-            // Third digit
-            index = curr / 100;
-            if (index > 0) {
-                words.push_back(d[100]);
-                words.push_back(d[index]);
-            }
+            vector<string> wordsString = deconstructThreeDigits(curr);
+            words.insert(words.end(), wordsString.begin(), wordsString.end());
         }
 
         curr = (num % 1000000) / 1000;
         if (curr > 0) {
             words.push_back(d[1000]);
-            int index;
-            int firstTwoDigits = curr % 100;
-            // First digit
-            if (firstTwoDigits >= 10 && firstTwoDigits <= 20) {
-                words.push_back(d[firstTwoDigits]);
-            } else {
-                index = firstTwoDigits % 10;
-                if (index > 0) {
-                    words.push_back(d[index]);
-                }
-                // Second digit
-                index = firstTwoDigits % 100 - index;
-                if (index > 0) {
-                    words.push_back(d[index]);
-                }
-            }
-
-            // Third digit
-            index = curr / 100;
-            if (index > 0) {
-                words.push_back(d[100]);
-                words.push_back(d[index]);
-            }
+            vector<string> wordsString = deconstructThreeDigits(curr);
+            words.insert(words.end(), wordsString.begin(), wordsString.end());
         }
-
+   
         curr = (num % 1000000000) / 1000000;
         if (curr > 0) {
             words.push_back(d[1000000]);
-            int index;
-            int firstTwoDigits = curr % 100;
-            // First digit
-            if (firstTwoDigits >= 10 && firstTwoDigits <= 20) {
-                words.push_back(d[firstTwoDigits]);
-            } else {
-                index = firstTwoDigits % 10;
-                if (index > 0) {
-                    words.push_back(d[index]);
-                }
-                // Second digit
-                index = firstTwoDigits % 100 - index;
-                if (index > 0) {
-                    words.push_back(d[index]);
-                }
-            }
-
-            // Third digit
-            index = curr / 100;
-            if (index > 0) {
-                words.push_back(d[100]);
-                words.push_back(d[index]);
-            }
+            vector<string> wordsString = deconstructThreeDigits(curr);
+            words.insert(words.end(), wordsString.begin(), wordsString.end());
         }
 
         curr = num / 1000000000;
         if (curr > 0) {
             words.push_back(d[1000000000]);
-            int index;
-            int firstTwoDigits = curr % 100;
-            // First digit
-            if (firstTwoDigits >= 10 && firstTwoDigits <= 20) {
-                words.push_back(d[firstTwoDigits]);
-            } else {
-                index = firstTwoDigits % 10;
-                if (index > 0) {
-                    words.push_back(d[index]);
-                }
-                // Second digit
-                index = firstTwoDigits % 100 - index;
-                if (index > 0) {
-                    words.push_back(d[index]);
-                }
-            }
-
-            // Third digit
-            index = curr / 100;
-            if (index > 0) {
-                words.push_back(d[100]);
-                words.push_back(d[index]);
-            }
+            vector<string> wordsString = deconstructThreeDigits(curr);
+            words.insert(words.end(), wordsString.begin(), wordsString.end());
         }
 
         string res = "";
-
         for (int i = words.size() - 1; i >= 0; i--) {
             if (res.size() == 0) {
                 res += words[i];
