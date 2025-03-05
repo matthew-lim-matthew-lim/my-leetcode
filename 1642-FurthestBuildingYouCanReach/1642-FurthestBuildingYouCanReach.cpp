@@ -3,6 +3,7 @@ public:
     int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
 
         priority_queue<int> pq;
+        // Each loop actually processes the next step - whether or not it is possible. 
         for (int i = 0; i < heights.size() - 1; i++) {
             int bricksRequired = heights[i + 1] - heights[i];
 
