@@ -17,6 +17,10 @@ public:
     
     int pickIndex() {
         int rangeValue = rand() % sum;
+        // std::lower_bound finds the first value that is >= the current value. 
+        // We want to find the largest value that is smaller than the current value. 
+        // Therefore, whatever element std::lower_bound finds, is 1 index larger
+        // than the index of the element we actually want. 
         auto it = lower_bound(indexRange.begin(), indexRange.end(), rangeValue);
         if (it == indexRange.end() || *it > rangeValue) {
             it--;
