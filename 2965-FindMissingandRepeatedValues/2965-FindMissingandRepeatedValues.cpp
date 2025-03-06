@@ -1,26 +1,18 @@
 class Solution {
 public:
     vector<int> findMissingAndRepeatedValues(vector<vector<int>>& grid) {
-        int n = grid.size();
-        vector<int> res(2, -1);
-        // Can I do it with constant memory? Maybe not
-        vector<bool> numSet(n * n + 1, false);
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                int currNum = grid[i][j];
-                if (numSet[currNum] == true) {
-                    res[0] = currNum;
-                } else {
-                    numSet[currNum] = true;
-                }
+        int a, n = grid.size();
+        vector<int> num_freq(n*n + 1, 0);
+        for(vector<int> row : grid) {
+            for(int num : row) {
+                if(num_freq[num] == 1)
+                    a = num;
+                num_freq[num]++;
             }
         }
-        for (int i = 1; i < n * n + 1; i++) {
-            if (numSet[i] == false) {
-                res[1] = i;
-            }
-        }
-
-        return res;
+        for(int num = 1; num <= n*n; num++)
+            if(num_freq[num] == 0)
+                return {a, num};
+        return {-1, -1};
     }
 };
