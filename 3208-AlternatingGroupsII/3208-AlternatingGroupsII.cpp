@@ -15,7 +15,6 @@ public:
                 l_ptr = r_ptr;
             }
             if (r_ptr - l_ptr + 1 == k) {
-                cout << l_ptr << " " << r_ptr << endl;
                 l_ptr++;
                 res++;
             }
@@ -32,7 +31,6 @@ public:
                 l_ptr = r_ptr;
             }
             if ((r_ptr + 1) + (n - l_ptr) == k) {
-                cout << l_ptr << " " << r_ptr << endl;
                 l_ptr++;
                 res++;
             }
