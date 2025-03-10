@@ -1,5 +1,11 @@
 class Solution {
 public:
+    // O(n) solution.
+    // O(n) precompute the length of a string of vowels that follows a character. 
+    // O(n) sliding window to compute valid windows. At each valid window, add 
+    // 1 to the result, and use the precomputed number of following strings to 
+    // add the number of additional substrings that start at this character, but 
+    // have more vowels (the extra vowels are at the end). 
     bool valid(unordered_map<char, int> &vowelCount, int k) {
         if (k != 0) {
             return false;
@@ -37,11 +43,6 @@ public:
             }
         }
 
-        // for (int i : vowelPostFix) {
-        //     cout << i << " ";
-        // }
-        // cout << endl;
-
         int l_ptr = 0;
         for (int r_ptr = 0; r_ptr < n; r_ptr++) {
             if (vowelCount.contains(word[r_ptr])) {
@@ -52,7 +53,6 @@ public:
 
             while (valid(vowelCount, k) || k < 0) {
                 if (valid(vowelCount, k)) {
-                    // cout << l_ptr << " " << r_ptr << endl;
                     res++;
                     res += vowelPostFix[r_ptr];
                 }
