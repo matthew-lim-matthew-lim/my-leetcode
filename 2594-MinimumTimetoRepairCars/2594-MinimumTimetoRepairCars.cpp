@@ -12,7 +12,7 @@ public:
     // Find the smallest X such that f(X) is true;
     long long binarysearch(vector<int>& ranks, int cars) {
         long long lo = 0;
-        long long hi = pow(cars, 2) * (*max_element(ranks.begin(), ranks.end()));
+        long long hi = pow(cars, 2) * (*min_element(ranks.begin(), ranks.end()));
         long long bestSoFar = -1;
         // Range [lo, hi];
         while (lo <= hi) {
