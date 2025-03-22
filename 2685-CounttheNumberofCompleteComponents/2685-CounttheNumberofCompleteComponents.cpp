@@ -1,11 +1,11 @@
-// Last updated: 3/22/2025, 2:01:29 PM
+// Last updated: 3/22/2025, 2:01:50 PM
 class Solution {
 public:
     int countCompleteComponents(int n, vector<vector<int>>& edges) {
-        vector<unordered_set<int>> adjList(n);
+        vector<vector<int>> adjList(n);
         for (vector<int> &edge : edges) {
-            adjList[edge[0]].insert(edge[1]);
-            adjList[edge[1]].insert(edge[0]);
+            adjList[edge[0]].push_back(edge[1]);
+            adjList[edge[1]].push_back(edge[0]);
         }
 
         int res = 0;
