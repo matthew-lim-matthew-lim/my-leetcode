@@ -1,4 +1,4 @@
-// Last updated: 3/22/2025, 1:59:26 PM
+// Last updated: 3/22/2025, 2:01:29 PM
 class Solution {
 public:
     int countCompleteComponents(int n, vector<vector<int>>& edges) {
@@ -45,13 +45,9 @@ public:
             // can visit every other node. 
             bool valid = true;
             for (int j = 0; j < componentNodes.size(); j++) {
-                for (int k = 0; k < componentNodes.size(); k++) {
-                    if (j == k) {
-                        continue;
-                    }
-                    if (!adjList[componentNodes[j]].contains(componentNodes[k])) {
-                        valid = false;
-                    }
+                if (adjList[componentNodes[j]].size() != componentNodes.size() - 1) {
+                    valid = false;
+                    break;
                 }
             }
             if (valid == true) {
