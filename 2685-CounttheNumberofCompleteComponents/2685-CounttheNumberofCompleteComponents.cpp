@@ -1,4 +1,4 @@
-// Last updated: 3/22/2025, 2:01:50 PM
+// Last updated: 3/22/2025, 2:03:00 PM
 class Solution {
 public:
     int countCompleteComponents(int n, vector<vector<int>>& edges) {
@@ -12,10 +12,10 @@ public:
 
         // Explore every node, building a set of components. 
         // Then, check that every node in the set can visit every other node. 
-        unordered_set<int> visited; 
+        vector<bool> visited(n, false); 
 
         for (int i = 0; i < n; i++) {
-            if (visited.contains(i)) {
+            if (visited[i] == true) {
                 continue;
             }
             vector<int> componentNodes; 
@@ -24,7 +24,7 @@ public:
             queue<int> q;
 
             q.push(i);
-            visited.insert(i);
+            visited[i] = true;
             while (!q.empty()) {
                 int curr = q.front();
                 q.pop();
@@ -32,11 +32,11 @@ public:
                 componentNodes.push_back(curr);
 
                 for (int neigh : adjList[curr]) {
-                    if (visited.contains(neigh)) {
+                    if (visited[neigh] == true) {
                         continue;
                     }
 
-                    visited.insert(neigh);
+                    visited[neigh] = true;
                     q.push(neigh);
                 }
             }
