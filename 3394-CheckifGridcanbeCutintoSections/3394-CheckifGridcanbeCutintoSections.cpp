@@ -1,4 +1,4 @@
-// Last updated: 3/25/2025, 12:58:11 PM
+// Last updated: 3/25/2025, 12:58:22 PM
 class Solution {
 public:
     bool checkValidCuts(int n, vector<vector<int>>& rectangles) {
@@ -33,7 +33,7 @@ public:
             }
         }
         validX--;
-        cout << validX << endl;
+        // cout << validX << endl;
         
         sort(yEvents.begin(), yEvents.end());
         int currYEvents = 0;
@@ -49,7 +49,7 @@ public:
             }
         }
         validY--;
-        cout << validY << endl;
+        // cout << validY << endl;
 
         return (validX >= 2 || validY >= 2);
     }
