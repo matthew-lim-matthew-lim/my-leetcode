@@ -1,4 +1,4 @@
-// Last updated: 3/27/2025, 7:07:01 PM
+// Last updated: 3/27/2025, 7:07:18 PM
 class Solution {
 public:
     int minimumIndex(vector<int>& nums) {
@@ -25,18 +25,10 @@ public:
             }
         }
 
-        // for (auto p : countToNumRight) {
-        //     cout << p.first << ": " << endl;
-        //     for (int num : p.second) {
-        //         cout << num << endl;
-        //     }
-        // }
-
         // Now, iterate through nums.
         // Ignore cutting at the edges where either could be empty. 
 
         for (int i = 0; i < nums.size() - 1; i++) {
-            // cout << "GOING THROUGH " << i << endl;
             int num = nums[i];
             countToNumRight[numToCountRight[num]].erase(num);
 
@@ -61,19 +53,6 @@ public:
                 numToCountLeft[num]++;
                 countToNumLeft[numToCountLeft[num]].insert(num);
             }
-
-            // for (auto p : countToNumLeft) {
-            //     cout << p.first << ": " << endl;
-            //     for (int val : p.second) {
-            //         cout << val << endl;
-            //     }
-            // }
-            // for (auto p : countToNumRight) {
-            //     cout << p.first << ": " << endl;
-            //     for (int val : p.second) {
-            //         cout << val << endl;
-            //     }
-            // }
 
             // Check if any result.
             if (countToNumRight.rbegin() != countToNumRight.rend() &&
