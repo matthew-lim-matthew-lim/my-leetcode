@@ -1,4 +1,4 @@
-// Last updated: 4/4/2025, 1:37:43 PM
+// Last updated: 4/4/2025, 1:39:17 PM
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -12,6 +12,7 @@
  */
 class Solution {
 public:
+    // Postorder traversal
     // Returns a pair: {height, LCA of this subtree}
     pair<int, TreeNode*> dfs(TreeNode* root) {
         if (!root)
