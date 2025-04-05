@@ -1,4 +1,4 @@
-// Last updated: 4/5/2025, 3:47:22 PM
+// Last updated: 4/5/2025, 3:47:30 PM
 class Solution {
 public:
     int climbStairs(int n) {
@@ -13,10 +13,6 @@ public:
             if (i + 1 < n + 1) {
                 dp[i + 1] += dp[i];
             }
-        }
-
-        for (int i = 0; i < n + 1; i++) {
-            cout << dp[i] << endl;
         }
 
         return dp[n];
