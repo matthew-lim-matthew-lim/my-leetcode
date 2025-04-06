@@ -1,4 +1,4 @@
-// Last updated: 4/6/2025, 7:56:11 PM
+// Last updated: 4/6/2025, 7:56:17 PM
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -23,8 +23,6 @@ public:
         int right = dfs(root->right, currMax);
 
         currMax = max(currMax, max(left, 0) + max(right, 0) + root->val);
-        // cout << root->val << " " << currMax << endl;
-        // cout << "left, right: " << left << " " << right << endl;
 
         return max(max(left, 0) + root->val, max(right, 0) + root->val);
     }
