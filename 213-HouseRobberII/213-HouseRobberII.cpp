@@ -1,4 +1,4 @@
-// Last updated: 4/9/2025, 1:10:28 PM
+// Last updated: 4/9/2025, 1:10:33 PM
 class Solution {
 public:
     int rob(vector<int>& nums) {
@@ -20,15 +20,6 @@ public:
         }
         dp[0][n - 1] = dp[0][n - 2];
         dp[1][n - 1] = max(dp[1][n - 2], dp[1][n - 3] + nums[n - 1]);
-
-        // cout << "dp[0]:" << endl;
-        // for (int i = 0; i < n; i++) {
-        //     cout << dp[0][i] << endl;
-        // }
-        // cout << "dp[1]:" << endl;
-        // for (int i = 0; i < n; i++) {
-        //     cout << dp[1][i] << endl;
-        // }
 
         return max(dp[0][n - 1], dp[1][n - 1]);
     }
