@@ -1,9 +1,9 @@
-// Last updated: 4/9/2025, 2:43:40 PM
+// Last updated: 4/9/2025, 2:44:25 PM
 class Solution {
 public:
     int maxProduct(vector<int>& nums) {
         // To pass TLE, maybe need to keep track of smallest positive val, and largest negative val (values closest to 0).
-        // If number positive, use the smallest > 0.
+        // If number positive, use the smallest > 0. -> We don't actually need this. Because its positive, dont need to change the sign.
         // If number negative, use the largest < 0.
         // This should make it O(n), if I use an unordered_set to track zeros
 
@@ -30,13 +30,8 @@ public:
         int res = nums.front();
 
         // Now, go through the potential subarrays.
-        int smallestAboveZero = INT_MAX;
         int largestBelowZero = INT_MIN;
         // If we encounter a zero, then reset the values.
-
-        // for (int i = 0; i < n; i++) {
-        //     cout << prefixProd[i] << endl;
-        // }
 
         // i is the last number in the subarray
         bool encounteredZero = false;
@@ -44,7 +39,6 @@ public:
             res = max(res, nums[i]);
 
             if (zeroIndex.contains(i)) {
-                smallestAboveZero = INT_MAX;
                 largestBelowZero = INT_MIN;
                 encounteredZero = true;
                 continue;
@@ -55,7 +49,6 @@ public:
             }
 
             if (prefixProd[i] > 0) {
-                // if (smallestAboveZero != INT_MAX) res = max(res, prefixProd[i] / smallestAboveZero);
                 res = max(res, prefixProd[i]);
             }
             if (prefixProd[i] < 0) {
