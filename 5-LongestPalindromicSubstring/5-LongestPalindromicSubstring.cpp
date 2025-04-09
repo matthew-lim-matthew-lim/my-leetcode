@@ -1,31 +1,47 @@
+// Last updated: 4/9/2025, 1:24:08 PM
 class Solution {
 public:
     string longestPalindrome(string s) {
-        vector<int> ans = {0, 0};
-        vector<vector<bool>> dp(s.size(), vector<bool>(s.size(), false));
-        for (int i = 0; i < s.size(); i++) {
-            dp[i][i] = true;
-            if (i + 1 < s.size() && (s[i] == s[i + 1])) {
-                dp[i][i + 1] = true;
-                ans = {i, i + 1};
-            }
-        }
+        // For each one, measure how long it can extend left and right. 
+        // For each i, extend left and right. Keep track of the largest plaindrome found so far.
+        int n = s.size();
+        string res;
 
-        // Iterate through by length of the palindrome: 1, 2, 3, etc.
-        // Iterate through by increasing (j - i).
-        // i is the left pointer, j is the right pointer. 
-        // dp[i][j] = s[i] == s[j] && dp[i + 1][j - 1];
-        // diff = j - i;
-        for (int diff = 2; diff < s.size(); diff++) {
-            for (int i = 0; i < s.size() - diff; i++) {
-                int j = i + diff;
-                if (s[i] == s[j] && dp[i + 1][j - 1]) {
-                    dp[i][j] = true;
-                    ans = {i, j};
+        for (int i = 0; i < n; i++) {
+            // Odd length palindrome
+            int l = i - 1;
+            int r = i + 1;
+            while (l >= 0 && r < n) {
+                if (s[l] != s[r]) {
+                    break;
+                }
+                l--;
+                r++;
+            }
+            l++;
+            r--;
+            if (r - l + 1 > res.size()) {
+                res = s.substr(l, r - l + 1);
+            }
+            // Even length palindrome
+            if (i + 1 < n && s[i] == s[i + 1]) {
+                int l = i - 1;
+                int r = i + 2;
+                while (l >= 0 && r < n) {
+                    if (s[l] != s[r]) {
+                        break;
+                    }
+                    l--;
+                    r++;
+                }
+                l++;
+                r--;
+                if (r - l + 1 > res.size()) {
+                    res = s.substr(l, r - l + 1);
                 }
             }
         }
 
-        return s.substr(ans[0], (ans[1] - ans[0] + 1));
+        return res;
     }
 };
