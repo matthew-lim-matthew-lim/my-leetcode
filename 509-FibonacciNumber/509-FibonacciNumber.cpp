@@ -1,4 +1,4 @@
-// Last updated: 4/10/2025, 11:37:09 AM
+// Last updated: 4/10/2025, 11:37:17 AM
 constexpr int fib_constexpr(int n) {
     return (n <= 1) ? n : fib_constexpr(n - 1) + fib_constexpr(n - 2);
 }
@@ -15,7 +15,7 @@ constexpr std::array<int, N + 1> generateFibTable() {
     return table;
 }
 
-constexpr std::size_t maxFib = 30; // Adjust this bound as needed.
+constexpr std::size_t maxFib = 30; 
 constexpr auto fibTable = generateFibTable<maxFib>();
 
 class Solution {
