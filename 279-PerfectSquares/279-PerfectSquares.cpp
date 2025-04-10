@@ -1,4 +1,4 @@
-// Last updated: 4/10/2025, 6:30:22 PM
+// Last updated: 4/10/2025, 6:30:28 PM
 class Solution {
 public:
     int numSquares(int n) {
@@ -6,7 +6,6 @@ public:
         // dp[i] = min(dp[i], dp[i - j] + dp[j]);
         vector<int> dp(n + 1, 0);
         for (int i = 1; i <= n; i++) {
-            // cout << i << endl;
             if (pow((int)sqrt(i), 2) == i) {
                 dp[i] = 1;
                 continue;
