@@ -1,4 +1,4 @@
-// Last updated: 4/10/2025, 11:17:44 AM
+// Last updated: 4/10/2025, 11:17:54 AM
 class Solution {
 public:
     int maximalSquare(vector<vector<char>>& matrix) {
@@ -31,13 +31,6 @@ public:
                 maxSquare = max(maxSquare, dp[i][j]);
             }
         }
-
-        // for (int i = 0; i < n; i++) {
-        //     for (int j = 0; j < m; j++) {
-        //         cout << dp[i][j] << ' ';
-        //     }
-        //     cout << endl;
-        // }
 
         return pow(maxSquare, 2);
     }
