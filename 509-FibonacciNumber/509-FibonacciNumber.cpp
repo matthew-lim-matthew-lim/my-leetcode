@@ -1,26 +1,16 @@
-// Last updated: 4/10/2025, 11:37:17 AM
-constexpr int fib_constexpr(int n) {
-    return (n <= 1) ? n : fib_constexpr(n - 1) + fib_constexpr(n - 2);
-}
-
-template <std::size_t N>
-constexpr std::array<int, N + 1> generateFibTable() {
-    std::array<int, N + 1> table = {};
-    table[0] = 0;
-    if (N >= 1)
-        table[1] = 1;
-    for (std::size_t i = 2; i <= N; ++i) {
-        table[i] = table[i - 1] + table[i - 2];
-    }
-    return table;
-}
-
-constexpr std::size_t maxFib = 30; 
-constexpr auto fibTable = generateFibTable<maxFib>();
-
+// Last updated: 4/10/2025, 11:37:32 AM
 class Solution {
 public:
     int fib(int n) {
-        return fibTable[n];
+        vector<int> dp(n+1,-1);
+       if(n==0) return 0;
+        if(n==1) return 1;
+        dp[0]=0;
+        dp[1]=1;
+        for(int i=2;i<=n;i++)
+        {
+            dp[i]=dp[i-1]+dp[i-2];
+        }
+        return dp[n];
     }
 };
