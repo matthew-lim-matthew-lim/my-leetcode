@@ -1,4 +1,4 @@
-// Last updated: 4/10/2025, 11:36:46 AM
+// Last updated: 4/10/2025, 11:37:09 AM
 constexpr int fib_constexpr(int n) {
     return (n <= 1) ? n : fib_constexpr(n - 1) + fib_constexpr(n - 2);
 }
