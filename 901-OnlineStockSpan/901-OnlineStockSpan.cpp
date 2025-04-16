@@ -1,20 +1,25 @@
-// Last updated: 4/16/2025, 1:52:02 PM
+// Last updated: 4/16/2025, 2:01:22 PM
 class StockSpanner {
 private:
-    vector<int> stockPrices;
+// For each entry, keep track of their span, so we can skip over some checking
+    vector<pair<int, int>> stockPrices;
 public:
     StockSpanner() {
         
     }
     
     int next(int price) {
-        stockPrices.push_back(price);
+        stockPrices.push_back({ 1, price });
 
         int n = stockPrices.size();
 
-        for (int i = n - 1; i >= 0; i--) {
-            if (stockPrices[i] > price) {
+        int i = n - 1;
+        while (i >= 0) {
+            if (stockPrices[i].second > price) {
+                stockPrices.back().first = (n - 1) - i;
                 return (n - 1) - i;
+            } else {
+                i -= stockPrices[i].first;
             }
         }
 
