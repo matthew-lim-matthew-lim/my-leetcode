@@ -1,4 +1,4 @@
-// Last updated: 4/16/2025, 1:41:15 PM
+// Last updated: 4/16/2025, 1:42:21 PM
 class Solution {
 public:
     long long countGood(vector<int>& nums, int k) {
