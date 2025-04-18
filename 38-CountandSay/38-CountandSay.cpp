@@ -1,29 +1,28 @@
-// Last updated: 4/18/2025, 12:38:22 PM
+// Last updated: 4/18/2025, 12:42:51 PM
 class Solution {
 public:
     string countAndSay(int n) {
-        string currStr = "1";
-        string newStr;
-        for (int i = 1; i < n; i++) {
-            newStr = "";
+        if (n == 1) return "1";
 
-            int m = currStr.size();
-            char prev = currStr.front();
-            unordered_map<char, int> digitCount;
-            for (int j = 0; j < m; j++) {
-                if (currStr[j] != prev) {
-                    newStr += to_string(digitCount[prev]) + prev;
-                    digitCount.erase(prev);
-                    prev = currStr[j];
+        string temp = "1";
+
+        for (int i = 2; i <= n; i++) {
+            string curr = "";
+            int count = 1;
+
+            for (int j = 1; j <= temp.size(); j++) {
+                if (j < temp.size() && temp[j] == temp[j - 1]) {
+                    count++;
+                } else {
+                    curr += to_string(count);
+                    curr += temp[j - 1];
+                    count = 1;
                 }
-                digitCount[currStr[j]]++;
             }
-            newStr += to_string(digitCount[prev]) + prev;
-            digitCount.erase(prev);
 
-            currStr = newStr;
+            temp = curr;
         }
 
-        return currStr;
+        return temp;
     }
 };
