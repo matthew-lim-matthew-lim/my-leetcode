@@ -1,4 +1,4 @@
-// Last updated: 4/19/2025, 1:48:07 PM
+// Last updated: 4/19/2025, 1:52:47 PM
 class Solution {
 public:
     long long countFairPairs(vector<int>& nums, int lower, int upper) {
@@ -15,11 +15,7 @@ public:
             // Find the larger number that would work with nums[i]
             long long high = upper - nums[i];
 
-            long long low_index = lower_bound(nums.begin() + i, nums.end(), low) - nums.begin();
-
-            long long high_index = upper_bound(nums.begin() + i, nums.end(), high) - nums.begin();
-
-            res += high_index - low_index;
+            res += distance(lower_bound(nums.begin() + i, nums.end(), low), upper_bound(nums.begin() + i, nums.end(), high));
 
             // Exclude self-counting
             if (nums[i] + nums[i] <= upper && nums[i] + nums[i] >= lower) {
