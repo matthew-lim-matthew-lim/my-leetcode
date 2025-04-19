@@ -1,4 +1,4 @@
-// Last updated: 4/19/2025, 1:52:47 PM
+// Last updated: 4/19/2025, 1:52:57 PM
 class Solution {
 public:
     long long countFairPairs(vector<int>& nums, int lower, int upper) {
