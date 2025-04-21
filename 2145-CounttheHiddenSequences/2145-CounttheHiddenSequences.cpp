@@ -1,4 +1,4 @@
-// Last updated: 4/21/2025, 12:21:09 PM
+// Last updated: 4/21/2025, 12:21:12 PM
 class Solution {
 public:
     int numberOfArrays(vector<int>& differences, int lower, int upper) {
@@ -13,10 +13,7 @@ public:
             curr += val;
             seqMin = min(seqMin, curr);
             seqMax = max(seqMax, curr);
-            // cout << curr << endl;
         }
-
-        // cout << seqMin << " " << seqMax << endl;
 
         return (upper - lower + 1) - (seqMax - seqMin) > 0 ? (upper - lower + 1) - (seqMax - seqMin) : 0;
     }
