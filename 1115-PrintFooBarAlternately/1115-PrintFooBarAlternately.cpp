@@ -1,32 +1,43 @@
-// Last updated: 4/21/2025, 9:36:45 PM
+// Last updated: 4/21/2025, 9:38:40 PM
 class FooBar {
 private:
-    int n;
-    std::binary_semaphore fooReady{1};
-    std::binary_semaphore barReady{0};
+  int n;
+  mutex m;
+  condition_variable canPrint;
+  bool shouldPrintFoo = true;
 
 public:
-    FooBar(int n) {
-        this->n = n;
-    }
+  FooBar(int n) {
+      this->n = n;
+  }
 
-    void foo(function<void()> printFoo) {
-        
-        for (int i = 0; i < n; i++) {
-            fooReady.acquire();
-        	// printFoo() outputs "foo". Do not change or remove this line.
-        	printFoo();
-            barReady.release();
+  void foo(function<void()> printFoo) {
+    for (int i = 0; i < n; i++) {
+      {
+        unique_lock<mutex> lck(m);
+        while (!shouldPrintFoo) {
+          canPrint.wait(lck);
         }
+        // printFoo() outputs "foo". Do not change or remove this line.
+        printFoo();
+        shouldPrintFoo = false;
+      }
+      canPrint.notify_one();
     }
+  }
 
-    void bar(function<void()> printBar) {
-        
-        for (int i = 0; i < n; i++) {
-            barReady.acquire();
-        	// printBar() outputs "bar". Do not change or remove this line.
-        	printBar();
-            fooReady.release();
+  void bar(function<void()> printBar) {
+    for (int i = 0; i < n; i++) {
+      {
+        unique_lock<mutex> lck(m);
+        while (shouldPrintFoo) {
+          canPrint.wait(lck);
         }
+        // printBar() outputs "bar". Do not change or remove this line.
+        printBar();
+        shouldPrintFoo = true;
+      }
+      canPrint.notify_one();
     }
+  }
 };
