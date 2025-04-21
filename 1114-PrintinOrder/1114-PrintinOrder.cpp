@@ -1,24 +1,19 @@
-// Last updated: 4/21/2025, 9:07:40 PM
+// Last updated: 4/21/2025, 9:11:56 PM
 class Foo {
-// CV might be good performance since blocking
 private:
     std::mutex mtx;
     std::condition_variable cv;
-    std::atomic<int> curr = 0;
+    int curr = 0;
 
 public:
-    Foo() {
-        
-    }
+    Foo() = default;
 
     void first(function<void()> printFirst) {
         {
             std::unique_lock<std::mutex> lock(mtx);
-            cv.wait(lock, [&] {
-                return curr.load(std::memory_order_acquire) == 0;
-            });
+            cv.wait(lock, [&] { return curr == 0; });
             printFirst();
-            curr.fetch_add(1, std::memory_order_release);
+            ++curr;
         }
         cv.notify_all();
     }
@@ -26,11 +21,9 @@ public:
     void second(function<void()> printSecond) {
         {
             std::unique_lock<std::mutex> lock(mtx);
-            cv.wait(lock, [&] {
-                return curr.load(std::memory_order_acquire) == 1;
-            });
+            cv.wait(lock, [&] { return curr == 1; });
             printSecond();
-            curr.fetch_add(1, std::memory_order_release);
+            ++curr;
         }
         cv.notify_all();
     }
@@ -38,11 +31,9 @@ public:
     void third(function<void()> printThird) {
         {
             std::unique_lock<std::mutex> lock(mtx);
-            cv.wait(lock, [&] {
-                return curr.load(std::memory_order_acquire) == 2;
-            });
+            cv.wait(lock, [&] { return curr == 2; });
             printThird();
-            curr.fetch_add(1, std::memory_order_release);
+            ++curr;
         }
         cv.notify_all();
     }
