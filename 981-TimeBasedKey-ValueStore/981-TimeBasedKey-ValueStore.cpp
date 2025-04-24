@@ -1,24 +1,41 @@
+// Last updated: 4/25/2025, 3:12:58 AM
 class TimeMap {
 private:
-    unordered_map<string, map<int, string>> timeMap;
+    struct Entry {
+        int timestamp;
+        string value;
+    };
+
+    unordered_map<string, vector<Entry>> entryMap;
+
 public:
     TimeMap() {
         
     }
     
     void set(string key, string value, int timestamp) {
-        timeMap[key][timestamp] = value;
+        entryMap[key].push_back(Entry{ timestamp, value });
     }
-    
-    string get(string key, int timestamp) {
-        auto it = timeMap[key].rbegin();
-        while (it != timeMap[key].rend() && it->first > timestamp) {
-            it++;
-        } 
-        if (it == timeMap[key].rend()) {
-            return "";
+
+    string binarySearch(vector<Entry> &entries, int timestamp) {
+        int lo = 0;
+        int hi = entries.size() - 1;
+        int bestSoFar = -1;
+        while (lo <= hi) {
+            int mid = (lo + hi) / 2;
+            if (entries[mid].timestamp <= timestamp) {
+                bestSoFar = mid;
+                lo = mid + 1;
+            } else {
+                hi = mid - 1;
+            }
         }
-        return it->second;
+
+        return bestSoFar == -1 ? "" : entries[bestSoFar].value;
+    }
+
+    string get(string key, int timestamp) {
+        return binarySearch(entryMap[key], timestamp);
     }
 };
 
