@@ -1,4 +1,4 @@
-// Last updated: 4/24/2025, 7:32:17 PM
+// Last updated: 4/24/2025, 7:32:49 PM
 class Solution {
 public:
     int countCompleteSubarrays(vector<int>& nums) {
@@ -12,8 +12,8 @@ public:
         int res = 0;
 
         // We need to find the minimum subarrays that are complete.
-        // Then, we count the extensions of that subarray leftwards and rightwards. 
-        // Like (left + 1) * (n - right)
+        // Then, we count the extensions of that subarray leftwards
+        // by doing res += l
         int l = 0;
 
         for (int r = 0; r < n; r++) {
