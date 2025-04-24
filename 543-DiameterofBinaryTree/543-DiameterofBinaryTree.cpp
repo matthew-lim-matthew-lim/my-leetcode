@@ -1,4 +1,4 @@
-// Last updated: 3/31/2025, 2:11:54 AM
+// Last updated: 4/25/2025, 2:16:23 AM
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -12,24 +12,23 @@
  */
 class Solution {
 public:
-    int traverse(TreeNode* root, int &biggest) {
-        int left = root->left == nullptr ? 0 : traverse(root->left, biggest) + 1;
-        int right = root->right == nullptr ? 0 : traverse(root->right, biggest) + 1;
+// Hmm tricky!
+// Post-order traversal. 
+    int postOrder(TreeNode* root, int &largestDiameter) {
+        if (root == nullptr) {
+            return -1;
+        }
 
-        biggest = max(biggest, left + right);
-
-        return max(left, right);
+        int leftHeight = postOrder(root->left, largestDiameter) + 1;
+        int rightHeight = postOrder(root->right, largestDiameter) + 1;
+        largestDiameter = max(largestDiameter, leftHeight + rightHeight);
+        return max(leftHeight, rightHeight);
     }
 
     int diameterOfBinaryTree(TreeNode* root) {
-        // Biggest height of left and right
-        if (root == nullptr) {
-            return 0;
-        }
-
-        int biggest = 0;
-        traverse(root, biggest);
-
-        return biggest;
+        int largestDiameter = 0;
+        int leftHeight = postOrder(root->left, largestDiameter) + 1;
+        int rightHeight = postOrder(root->right, largestDiameter) + 1;
+        return max(largestDiameter, leftHeight + rightHeight);
     }
 };
