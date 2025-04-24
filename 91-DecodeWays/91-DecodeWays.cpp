@@ -1,4 +1,4 @@
-// Last updated: 4/25/2025, 1:37:07 AM
+// Last updated: 4/25/2025, 1:37:16 AM
 class Solution {
 public:
 // Oh hell nah
@@ -21,12 +21,7 @@ public:
             }
             
             dp[i] = oneDigit + twoDigit;
-            // cout << oneDigit << " " << twoDigit << endl;
         }
-
-        // for (int i = 0; i < n; i++) {
-        //     cout << dp[i] << endl;
-        // }
 
         return dp[n - 1];
     }
