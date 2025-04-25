@@ -1,25 +1,19 @@
+// Last updated: 4/25/2025, 1:54:46 PM
 class Solution {
 public:
+// Prefix sum
+// Use a map to keep track of the number of sums with value `k - currSum`
     int subarraySum(vector<int>& nums, int k) {
-        // Sliding window
-        int lptr = 0;
         int n = nums.size();
         int res = 0;
-
-
-        // Prefix sum
-        vector<int> prefix(n + 1, 0);
+        int prev = 0;
+        unordered_map<int, int> countMap;
+        countMap[0] = 1;
         for (int i = 1; i < n + 1; i++) {
-            prefix[i] = prefix[i - 1] + nums[i - 1];
-        }
-
-        // Count res
-        for (int i = 0; i < n + 1; i++) {
-            for (int j = i + 1; j < n + 1; j++) {
-                if (prefix[j] - prefix[i] == k) {
-                    res++;
-                }
-            }
+            int curr = prev + nums[i - 1];
+            res += countMap[curr - k];
+            countMap[curr]++;
+            prev = curr;
         }
 
         return res;
