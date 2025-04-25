@@ -1,4 +1,4 @@
-// Last updated: 4/25/2025, 1:44:03 PM
+// Last updated: 4/25/2025, 1:45:56 PM
 class Solution {
 public:
 // Prefix sums
@@ -8,15 +8,16 @@ public:
     long long countInterestingSubarrays(vector<int>& nums, int modulo, int k) {
         int n = nums.size();
         
-        vector<int> count(n + 1);
+        int prev = 0;
         unordered_map<int, long long> validCount;
         validCount[0] = 1;
 
         long long res = 0;
         for (int i = 1; i < n + 1; i++) {
-            count[i] = count[i - 1] + (nums[i - 1] % modulo == k ? 1 : 0);
-            res += validCount[(count[i] + modulo - k) % modulo];
-            validCount[count[i] % modulo]++;
+            int curr = prev + (nums[i - 1] % modulo == k ? 1 : 0);
+            res += validCount[(curr + modulo - k) % modulo];
+            validCount[curr % modulo]++;
+            prev = curr;
         }
 
         // For each index, check if there are results:
