@@ -1,4 +1,4 @@
-// Last updated: 4/28/2025, 12:25:17 PM
+// Last updated: 4/28/2025, 12:25:27 PM
 class Solution {
 public:
     int binarySearch(vector<long long>& prefixSum, int l, long long k) {
@@ -31,10 +31,6 @@ public:
         for (int i = 1; i < n + 1; i++) {
             prefixSum[i] = prefixSum[i - 1] + nums[i - 1];
         }
-
-        // for (int i = 0; i < n + 1; i++) {
-        //     cout << prefixSum[i] << endl;
-        // }
 
         long long res = 0;
 
