@@ -1,4 +1,4 @@
-// Last updated: 5/19/2025, 11:18:08 PM
+// Last updated: 5/19/2025, 11:18:23 PM
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -46,7 +46,7 @@ public:
 
         // So far so good
         // Reverse first k manually.
-        // ListNode* oldEnd = end->next;
+
         ListNode* oldNext = curr->next;
         ListNode* prev = end->next;
         for (int i = 0; i < k; i++) {
@@ -56,7 +56,6 @@ public:
             curr = oldNext;
         }
 
-        // cout << oldEnd->val << endl;
         oldEnd->next = reverseKGroup(oldEnd->next, k);
 
         return head;
