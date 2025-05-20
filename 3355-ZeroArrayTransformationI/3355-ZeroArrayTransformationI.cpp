@@ -1,25 +1,27 @@
-// Last updated: 5/20/2025, 11:07:46 AM
+// Last updated: 5/20/2025, 11:13:40 AM
 class Solution {
 public:
+/* 
+Prefix sum
+ */
+
     bool isZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
-        // Need to use a difference array to meet time complexity requirements
-        vector<int> difference_array(nums.size() + 1, 0);
+        int n = nums.size();
 
-        for (vector<int> query : queries) {
-            difference_array[query[0]]--;
-            difference_array[query[1] + 1]++;
+        vector<int> prefix(n + 1, 0);
+
+        for (vector<int> &query : queries) {
+            prefix[query[0]]--;
+            prefix[query[1]+1]++;
         }
 
-        // Compute prefix sum of difference array
-        for (int i = 1; i < difference_array.size(); i++) {
-            difference_array[i] += difference_array[i - 1];
-        }
-
-        for (int i = 0; i < nums.size(); i++) {
-            if (nums[i] + difference_array[i] > 0) {
+        int currOffset = 0;
+        for (int i = 0; i < n; i++) {
+            currOffset += prefix[i];
+            if (currOffset + nums[i] > 0) {
                 return false;
             }
-        } 
+        }
 
         return true;
     }
