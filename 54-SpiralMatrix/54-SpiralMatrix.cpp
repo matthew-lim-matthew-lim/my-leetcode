@@ -1,33 +1,41 @@
-// Last updated: 7/9/2025, 9:28:32 PM
+// Last updated: 7/9/2025, 9:44:29 PM
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> pos = {0, 0};
         int n = matrix.size();
         int m = matrix[0].size();
-        vector<vector<bool>> visited(n, vector<bool>(m, false));
 
-        vector<int> currPos = { 0, 0 };
-        vector<int> order;
-        
-        vector<vector<int>> direction = {{ 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 }};
-        int d = 0;
-        while (true) {
-            order.push_back(matrix[currPos[0]][currPos[1]]);
-            visited[currPos[0]][currPos[1]] = true;
-            
-            vector<int> newPos = { currPos[0] + direction[d][0], currPos[1] + direction[d][1] };
-            if (newPos[0] < n && newPos[1] < m && newPos[0] >= 0 && newPos[1] >= 0 && visited[newPos[0]][newPos[1]] == false) {
-                currPos = newPos;
-            } else {
-                d = (d + 1) % 4;
-                vector<int> newPos = { currPos[0] + direction[d][0], currPos[1] + direction[d][1] };
-                if (!(newPos[0] < n && newPos[1] < m && newPos[0] >= 0 && newPos[1] >= 0 && visited[newPos[0]][newPos[1]] == false)) {
-                    return order;
+        int R = m - 1;
+        int D = n - 1;
+        int L = 0;
+        int U = 0;
+
+        vector<int> res;
+
+        while (L <= R && U <= D) {
+            for (int j = L; j <= R; j++) {
+                res.push_back(matrix[U][j]);
+            }
+            U++;
+            for (int i = U; i <= D; i++) {
+                res.push_back(matrix[i][R]);
+            }
+            R--;
+            if (U <= D) {
+                for (int j = R; j >= L; j--) {
+                    res.push_back(matrix[D][j]);
                 }
-                currPos = newPos;
+                D--;
+            }
+            if (L <= R) {
+                for (int i = D; i >= U; i--) {
+                    res.push_back(matrix[i][L]);
+                }
+                L++;
             }
         }
 
-        return order;
+        return res;
     }
 };
