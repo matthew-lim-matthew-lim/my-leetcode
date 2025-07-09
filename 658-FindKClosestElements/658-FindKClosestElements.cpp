@@ -1,21 +1,16 @@
-// Last updated: 7/9/2025, 9:57:48 PM
+// Last updated: 7/9/2025, 9:58:56 PM
 class Solution {
 public:
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
         int n = arr.size();
-        vector<int> arrProcessed = arr;
-        
-        for (int i = 0; i < n; i++) {
-            arrProcessed[i] = abs(arrProcessed[i] - x);
-        }
 
         int rPtr = n - 1;
         int lPtr = 0;
 
         while (rPtr - lPtr + 1 > k) {
-            if (arrProcessed[rPtr] > arrProcessed[lPtr]) {
+            if (abs(arr[rPtr] - x) > abs(arr[lPtr] - x)) {
                 rPtr--;
-            } else if (arrProcessed[rPtr] < arrProcessed[lPtr]) {
+            } else if (abs(arr[rPtr] - x) < abs(arr[lPtr] - x)) {
                 lPtr++;
             } else {
                 rPtr--;
