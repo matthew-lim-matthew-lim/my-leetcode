@@ -1,4 +1,4 @@
-// Last updated: 7/13/2025, 1:14:44 AM
+// Last updated: 7/13/2025, 1:19:13 AM
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
@@ -6,9 +6,9 @@ public:
 
         sort(nums.begin(), nums.end());
 
-        unordered_set<string> uSet;
-
         vector<vector<int>> res;
+
+        set<vector<int>> vSet;
 
         for (int i = 0; i < n - 2; i++) {
             int j = i + 1;
@@ -20,10 +20,10 @@ public:
                     i != k && 
                     j != k
                 ) {
-                    string key = to_string(nums[i]) + to_string(nums[j]) + to_string(nums[k]);
-                    if (!uSet.contains(key)) {
-                        res.push_back({ nums[i], nums[j], nums[k] });
-                        uSet.insert(key);
+                    vector<int> newVec = { nums[i], nums[j], nums[k] };
+                    if (!vSet.contains(newVec)) {
+                        res.push_back(newVec);
+                        vSet.insert(newVec);
                     }
                     j++;
                 } else {
