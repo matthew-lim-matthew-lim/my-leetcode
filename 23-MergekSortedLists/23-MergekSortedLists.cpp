@@ -1,53 +1,31 @@
-// Last updated: 7/13/2025, 10:11:41 PM
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
+// Last updated: 7/13/2025, 10:26:43 PM
 class Solution {
 public:
-    ListNode* mergeKLists(vector<ListNode*>& lists) {
-        ListNode* res = nullptr;
-        
-        int n = lists.size();
+    struct cmp {
+        bool operator()(ListNode* a, ListNode* b) const {
+            return a->val > b->val;           // min-heap on val
+        }
+    };
 
-        // { value, index of lists }
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
-        for (int i = 0; i < n; i++) {
-            if (lists[i] != nullptr) {
-                pq.push({ lists[i]->val, i });
-            }
-        }        
+    ListNode* mergeKLists(vector<ListNode*>& v) {
+        using Node = ListNode*;
+        priority_queue<Node, vector<Node>, cmp> pq;
 
-        ListNode* prevNode; 
-        ListNode* currNode;
+        /* push only the head of each non-empty list */
+        for (Node head : v)
+            if (head) pq.push(head);
+
+        if (pq.empty()) return nullptr;       // every list was empty
+
+        Node head = pq.top();                 // first (smallest) node
+        Node tail = head;
 
         while (!pq.empty()) {
-            int listIndex = pq.top().second;
-            pq.pop();
-
-            currNode = lists[listIndex];
-
-            if (res == nullptr) {
-                res = currNode;
-            } else {
-                prevNode->next = currNode;
-            }
-
-            prevNode = currNode;
-
-            lists[listIndex] = lists[listIndex]->next;
-
-            if (lists[listIndex] != nullptr) {
-                pq.push({ lists[listIndex]->val, listIndex });
-            }
+            tail = pq.top(); pq.pop();        // take smallest
+            if (tail->next) pq.push(tail->next); // push successor
+            if (!pq.empty()) tail->next = pq.top(); // link to new smallest
         }
-
-        return res;
+        tail->next = nullptr;                 // terminate
+        return head;
     }
 };
