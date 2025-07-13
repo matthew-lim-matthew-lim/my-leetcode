@@ -1,4 +1,4 @@
-// Last updated: 7/13/2025, 5:02:16 PM
+// Last updated: 7/13/2025, 5:02:30 PM
 /* 
 Dynamic Programming?
 
@@ -47,10 +47,6 @@ public:
 
             maxRes = max(maxRes, dp[jobs[currJob][0]]);
         }
-
-        // for (int i = 0; i < lastEnd + 1; i++) {
-        //     cout << dp[i] << endl;
-        // }
 
         return maxRes;
     }
