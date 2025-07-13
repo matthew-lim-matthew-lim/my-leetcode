@@ -1,4 +1,4 @@
-// Last updated: 7/13/2025, 6:38:26 PM
+// Last updated: 7/13/2025, 6:43:39 PM
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -11,29 +11,28 @@
  */
 class Solution {
 public:
-
     int pairSum(ListNode* head) {
-        stack<int> stk;
+        int res = 0;
+        ListNode* slow = head;
+        ListNode* prev = nullptr;
+        ListNode* tmp = nullptr;
+        ListNode* fast = head->next;
+        while(fast && fast->next){
+            fast = fast->next->next;
 
-        ListNode* curr = head;
-        int llSize = 0;
-
-        while (curr != nullptr) {
-            stk.push(curr->val);
-            curr = curr->next;
-            llSize++;
+            tmp = slow;
+            slow = slow->next;
+            tmp->next = prev;
+            prev = tmp;
         }
-
-        int maxRes = 0;
-
-        curr = head;
-        for (int i = 0; i < llSize / 2; i++) {
-            maxRes = max(maxRes, curr->val + stk.top());
-            stk.pop();
-
-            curr = curr->next;
+        ListNode* nextHalf = slow->next;
+        ListNode* prevHalf = slow;
+        slow->next = prev;
+        while(prevHalf && nextHalf){
+            res = max(res, prevHalf->val+nextHalf->val);
+            prevHalf = prevHalf->next;
+            nextHalf = nextHalf->next;
         }
-
-        return maxRes;
+        return res;
     }
 };
