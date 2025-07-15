@@ -1,50 +1,47 @@
-// Last updated: 7/15/2025, 10:46:42 PM
+// Last updated: 7/16/2025, 12:55:23 AM
 /* 
-Dynamic Programming.
-
-dp[i][balance]
-
-for each i and balance, is this valid?
-
-balance range from 0 to n
+STACK!
  */
 
 class Solution {
 public:
     bool checkValidString(string s) {
-        int n = s.size();
+        stack<pair<int, char>> stk;
+        stack<int> stkA;
 
-        vector<vector<bool>> dp(n, vector<bool>(n, false));
-
-        if (s[0] == ')') {
-            return false;
+        for (int i = 0; i < s.size(); i++) {
+            char c = s[i];
+            if (c == '(') {
+                stk.push({ i, '(' });
+            } else if (c == ')') {
+                bool used = false;
+                if (!stk.empty() && stk.top().second == '(') {
+                    used = true;
+                    stk.pop();
+                } else if (!stkA.empty()) {
+                    stkA.pop();
+                    used = true;
+                }
+                if (!used) {
+                    stk.push({ i, ')' });
+                }
+            } else {
+                stkA.push(i);
+            }
         }
 
-        dp[0][0] = s[0] == '*';
-        dp[0][1] = (s[0] == '(' || s[0] == '*');
+        while (!stk.empty() && !stkA.empty()) {
+            while (!stkA.empty()) {
+                int aTop = stkA.top();
+                stkA.pop();
 
-        for (int i = 1; i < n; i++) {
-            char c = s[i];
-
-            for (int b = 0; b < n; b++) {
-                if (c == '(') {
-                    if (b == 0) {
-                        dp[i][b] = false;
-                    } else {
-                        dp[i][b] = dp[i - 1][b - 1];
-                    }
-                } else if (c == ')') {
-                    dp[i][b] = dp[i - 1][b + 1];
-                } else {
-                    if (b == 0) {
-                        dp[i][b] = dp[i - 1][b] | dp[i - 1][b + 1];
-                    } else {
-                        dp[i][b] = dp[i - 1][b - 1] | dp[i - 1][b] | dp[i - 1][b + 1];
-                    }
+                if (stk.top().first < aTop && stk.top().second == '(') {
+                    stk.pop();
+                    break;
                 }
             }
         }
 
-        return dp[n - 1][0];
+        return stk.empty();
     }
 };
