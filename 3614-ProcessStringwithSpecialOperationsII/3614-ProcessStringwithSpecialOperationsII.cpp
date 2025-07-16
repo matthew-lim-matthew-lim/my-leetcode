@@ -1,4 +1,4 @@
-// Last updated: 7/16/2025, 9:42:58 PM
+// Last updated: 7/16/2025, 9:43:18 PM
 /* 
 Maybe use a deque?
 
@@ -34,9 +34,9 @@ public:
         for (int i = s.size() - 1; i >= 0; i--) {
             char c = s[i];
 
-            if (length == 0) {
-                return '.';
-            }
+            // if (length == 0) {
+            //     return '.';
+            // }
             
             if (c <= 'z' && c >= 'a') {
                 length--;
