@@ -1,81 +1,100 @@
-// Last updated: 7/21/2025, 12:11:34 AM
-/* 
-We can binary search this?
-Basically, find the smallest nParts that will work. 
+// Last updated: 7/21/2025, 12:18:21 AM
 
-It succeeds if the number of parts we made (length of res array) is less than nParts.
+#include <cmath>
+#include <iostream>
+#include <string>
+#include <vector>
 
-Therefore, it is monotonic.
-All the ones beyond the critical number will succeed (more than nParts).
-All the one before the critical number will fail (less than nParts).
-*/
+const std::vector<int> amount_of_numbers_by_digit {0, 9, 90, 900, 9'000, 90'000};
+const int suffix_len = 3; // </>
+
 class Solution {
-
-struct AttemptObject {
-    bool success;
-    vector<string> result;
-};
-int limit_;
-
 public:
-    AttemptObject attempt(string &message, int nParts) {
-        vector<string> res;
-
-        int currPart = 1;
-
-        int currIndex = 0;
-        
-        int n = message.size();
-        int i = 0;
-        for (; i < nParts && currIndex < n; i++) {
-            int suffixSize = 3 + to_string(i + 1).size() + to_string(nParts).size();
-            string currString = "";
-
-            for (int j = 0; j < limit_ - suffixSize && currIndex < n; j++) {
-                currString += message[currIndex];
-                currIndex++;
-            }
-            currString += "<" + to_string(i + 1) + "/" + to_string(nParts) + ">";
-            res.push_back(currString);
+    std::pair<int, int> GetSizeOfMessage(int limit, int groups_count) {
+        int result = 0; 
+        int d = static_cast<int>(std::log10(groups_count)) + 1;
+        if (limit <= suffix_len + d * 2) {
+            return {0, 0};
         }
-
-        if (currIndex != n) {
-            return AttemptObject(false, {});
+        int i = 1;
+        while (i < d) {
+            result += amount_of_numbers_by_digit[i] * (limit - (suffix_len + d + i));
+            ++i;
         }
-
-        return AttemptObject(true, res);
+        result += (groups_count - std::pow(10, d - 1) + 1) * (limit - (suffix_len + d * 2));
+        return {result - (limit - (suffix_len + d * 2)) + 1, result};
     }
 
-    vector<string> splitMessage(string message, int limit) {
-        limit_ = limit;
-        int n = message.size();
-
-
-
-        AttemptObject res;
-
-        for (int i = 4; i >= 1; i--) {
-            int lo = pow(10, i - 1);
-            int hi = pow(10, i);
-            // cout << lo << ' ' << hi << endl;
-            int bestSoFar = n;
-
-            while (lo <= hi) {
-                int mid = (lo + hi) / 2;
-                // cout << mid << endl;
-
-                AttemptObject attemptObj = attempt(message, mid);
-                if (attemptObj.success) {
-                    hi = mid - 1;
-                    bestSoFar = mid;
-                    res = attemptObj;
-                    // cout << "hello" << endl;
-                } else {
-                    lo = mid + 1;
-                }
+    int GetNumberOfDigits(size_t size, int limit) {
+        int d = 0;
+        do {   
+            ++d;
+            int i = 1;
+            int cur_size = 0;
+            if (limit <= suffix_len + d * 2) {
+                return 0;
             }
-        }
+            while (i <= d) {
+                cur_size += amount_of_numbers_by_digit[i] * (limit - (suffix_len + d + i));
+                ++i;
+            }
+            if (cur_size >= size) {
+                return d;
+            }
+        } while (true);
+    }
 
-        return res.result;
+    int GuessAmountOfGroups(int size, int limit) {
+        int digits = GetNumberOfDigits(size, limit);
+        if (digits == 0) {
+            return 0;
+        }
+        int best_case = 0;
+        int r = std::min(static_cast<int>(std::pow(10, digits)), size + 1); 
+        int l = static_cast<int>(std::pow(10, digits - 1));
+        do {
+            int mid = (r + l) / 2;
+            auto [min, max] = GetSizeOfMessage(limit, mid);
+            if (min == 0) {
+                r = mid;
+            } else if (size >= min && size <= max) {
+                best_case = mid;
+                r = mid;
+            } else if (size < min) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        } while (l != r);
+        return best_case;
+    }
+public:
+    std::vector<std::string> splitMessage(std::string message, int limit) {
+        if (limit < 6) { // min suffix = <a/b>
+            return {};
+        }
+        int groups_count = GuessAmountOfGroups(static_cast<int>(message.size()), limit);
+        if (groups_count == 0) {
+            return {};
+        }
+        std::vector<std::string> groups(groups_count);
+        std::string end_of_suffix = "/" + std::to_string(groups_count) + ">";
+        size_t idx = 0;
+        int total_digits = end_of_suffix.size() - 2;
+        int digits = 0;
+        size_t i = 1;
+        do {
+            ++digits;
+            size_t free_space = limit - (suffix_len + digits + total_digits);
+            int n = std::min(groups_count + 1, static_cast<int>(std::pow(10, digits)));
+            while (i < n) {                
+                std::string group = message.substr(idx, free_space) + "<" + std::to_string(i) + end_of_suffix;
+                groups[i - 1] = std::move(group);
+                idx += free_space;
+                ++i;
+            }
+        } while (i <= groups_count);
+
+        return groups;
     }
 };
