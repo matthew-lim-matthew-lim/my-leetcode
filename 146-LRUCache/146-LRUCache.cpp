@@ -1,41 +1,55 @@
-// Last updated: 7/10/2025, 12:43:26 AM
+// Last updated: 9/14/2025, 8:46:08 PM
+/* 
+Use a LL. 
+When a key is used, move the node to the front. 
+ */
 class LRUCache {
+private:
 
-struct LLEntry {
+class ListItem {
+public:
     int key;
     int val;
 };
 
-private:
-    int capacity_;
-    list<LLEntry> LL;
-    unordered_map<int, list<LLEntry>::iterator> LLMap;
+    int remainingCapacity_;
+    list<ListItem> LL;
+    unordered_map<int, list<ListItem>::iterator> itemMap;
 public:
-    LRUCache(int capacity) : capacity_(capacity) {}
+    LRUCache(int capacity) : remainingCapacity_(capacity) {
+    }
     
     int get(int key) {
-        if (!LLMap.contains(key)) {
+        if (!itemMap.contains(key)) {
             return -1;
         }
-        int value = LLMap[key]->val;
-        LL.erase(LLMap[key]);
-        LLMap[key] = LL.insert(LL.end(), LLEntry(key, value));
-        return value;
+
+        list<ListItem>::iterator itr = itemMap[key];
+        int val = itr->val;
+        LL.push_back(ListItem(itr->key, itr->val));
+        itemMap[key] = --LL.end();
+        LL.erase(itr);
+        return val;
     }
     
     void put(int key, int value) {
-        if (LLMap.contains(key)) {
-            LL.erase(LLMap[key]);
-            LLMap[key] = LL.insert(LL.end(), LLEntry(key, value));
+        if (itemMap.contains(key)) {
+            list<ListItem>::iterator itr = itemMap[key];
+            LL.push_back(ListItem(itr->key, value));
+            itemMap[key] = --LL.end();
+            LL.erase(itr);
             return;
         }
-        LLMap[key] = LL.insert(LL.end(), LLEntry(key, value));
-        if (capacity_ > 0) {
-            capacity_--;
+
+        if (remainingCapacity_ == 0) {
+            itemMap.erase(LL.begin()->key);
+            LL.pop_front();
         } else {
-            LLMap.erase(LL.begin()->key);
-            LL.erase(LL.begin());
+            remainingCapacity_--;
         }
+
+        LL.push_back(ListItem(key, value));
+        itemMap[key] = --LL.end();
     }
 };
 
