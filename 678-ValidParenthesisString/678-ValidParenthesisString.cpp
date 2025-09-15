@@ -1,47 +1,40 @@
-// Last updated: 7/16/2025, 12:55:23 AM
+// Last updated: 9/15/2025, 10:20:53 PM
 /* 
-STACK!
+Dynamic programming
+dp[i][j]
+Where 'i' is the index, and 'j' is the number of excess '(' there are.
  */
-
 class Solution {
 public:
     bool checkValidString(string s) {
-        stack<pair<int, char>> stk;
-        stack<int> stkA;
-
-        for (int i = 0; i < s.size(); i++) {
-            char c = s[i];
-            if (c == '(') {
-                stk.push({ i, '(' });
-            } else if (c == ')') {
-                bool used = false;
-                if (!stk.empty() && stk.top().second == '(') {
-                    used = true;
-                    stk.pop();
-                } else if (!stkA.empty()) {
-                    stkA.pop();
-                    used = true;
-                }
-                if (!used) {
-                    stk.push({ i, ')' });
-                }
-            } else {
-                stkA.push(i);
-            }
+        int n = s.size();
+        vector<vector<bool>> dp(n, vector<bool>(n, false));
+        if (s[0] == ')') {
+            return false;
         }
-
-        while (!stk.empty() && !stkA.empty()) {
-            while (!stkA.empty()) {
-                int aTop = stkA.top();
-                stkA.pop();
-
-                if (stk.top().first < aTop && stk.top().second == '(') {
-                    stk.pop();
-                    break;
+        if (s[0] == '(') {
+            dp[0][1] = true;
+        }
+        if (s[0] == '*') {
+            dp[0][0] = true;
+            dp[0][1] = true;
+        }
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                bool left = j - 1 >= 0 && dp[i - 1][j - 1];
+                bool right = j + 1 < n && dp[i - 1][j + 1];
+                if (s[i] == '(') {
+                    dp[i][j] = left;
+                }
+                if (s[i] == ')') {
+                    dp[i][j] = right;
+                }
+                if (s[i] == '*') {
+                    dp[i][j] = left || right || dp[i - 1][j];
                 }
             }
         }
 
-        return stk.empty();
+        return dp[n - 1][0];
     }
 };
