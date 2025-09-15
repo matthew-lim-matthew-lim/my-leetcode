@@ -1,37 +1,25 @@
-// Last updated: 7/10/2025, 12:56:59 PM
+// Last updated: 9/15/2025, 6:59:39 PM
 /* 
-Priority queue min-heap with max size k. 
-vector of { count, value }
+Map, then a priority queue.
  */
-
 class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
-        priority_queue<vector<int>, vector<vector<int>>, greater<>> pq;
-
-        sort(nums.begin(), nums.end());
-
-        int count = 1;
-        for (int i = 1; i < nums.size(); i++) {
-            if (nums[i] == nums[i - 1]) {
-                count++;
-            } else {
-                pq.push({ count, nums[i - 1] });
-                if (pq.size() > k) {
-                    pq.pop();
-                }
-                count = 1;
-            }
-        }
-        pq.push({ count, nums[nums.size() - 1]});
-        if (pq.size() > k) {
-            pq.pop();
-        }
-
         vector<int> res;
-        while (!pq.empty()) {
-            res.push_back(pq.top()[1]);
-            pq.pop();
+        unordered_map<int, int> count;
+        for (int &num : nums) {
+            count[num]++;
+        }
+
+        multimap<int, int> ordered_map;
+        for (pair<const int, int> &p : count) {
+            ordered_map.insert({p.second, p.first});
+        }
+
+        map<int, int>::reverse_iterator it = ordered_map.rbegin();
+        for (int i = 0; i < k; i++) {
+            res.push_back(it->second);
+            it++;
         }
 
         return res;
