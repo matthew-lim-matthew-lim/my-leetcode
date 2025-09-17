@@ -1,50 +1,62 @@
-// Last updated: 7/18/2025, 2:01:15 AM
+// Last updated: 9/17/2025, 10:47:11 PM
 /* 
-Trie?
+Trie asf
  */
 class WordDictionary {
 private:
 
-struct Node  {
-    bool end = false;
-    unordered_map<char, Node*> outgoing;
+struct Node {
+    char val;
+    unordered_map<char, Node*> neigh;
+    bool word;
 };
 
-    Node* root;
+unordered_map<char, Node*> trie;
 
 public:
     WordDictionary() {
-        root = new Node;   
+        
     }
     
     void addWord(string word) {
-        Node* curr = root;
-        for (char c : word) {
-            if (!curr->outgoing.contains(c)) {
-                curr->outgoing[c] = new Node;
-            }
-            curr = curr->outgoing[c];
+        Node* curr = nullptr;
+        if (!trie.contains(word[0])) {
+            trie[word[0]] = new Node(word[0], {}, false);
         }
-        curr->end = true;
+        curr = trie[word[0]];
+        for (int i = 1; i < word.size(); i++) {
+            if (!curr->neigh.contains(word[i])) {
+                curr->neigh[word[i]] = new Node(word[0], {}, false);
+            }
+            curr = curr->neigh[word[i]];
+        }
+
+        curr->word = true;
     }
     
     bool search(string word) {
+        // BFS
         queue<pair<Node*, int>> q;
-        q.push({ root, 0 });
+        if (word[0] == '.') {
+            for (pair<const char, Node*> p : trie) {
+                q.push({p.second, 1});
+            }
+        } else if (trie.contains(word[0])) {
+            q.push({trie[word[0]], 1});
+        }
+
         while (!q.empty()) {
             pair<Node*, int> curr = q.front();
             q.pop();
 
-            if (curr.second == word.size() && curr.first->end) {
+            if (curr.second == word.size() && curr.first->word == true) {
                 return true;
-            }
+            } 
 
-            if (word[curr.second] == '.') {
-                for (pair<char, Node*> p : curr.first->outgoing) {
-                    q.push({ p.second, curr.second + 1 });
+            for (pair<const char, Node*> p : curr.first->neigh) {
+                if (p.first == word[curr.second] || word[curr.second] == '.') {
+                    q.push({p.second, curr.second + 1});
                 }
-            } else if (curr.first->outgoing.contains(word[curr.second])) {
-                q.push({ curr.first->outgoing[word[curr.second]], curr.second + 1 });
             }
         }
 
