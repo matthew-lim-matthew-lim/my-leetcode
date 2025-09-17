@@ -1,54 +1,60 @@
-// Last updated: 7/12/2025, 11:43:42 PM
+// Last updated: 9/17/2025, 9:40:07 PM
 /* 
-Backtracking. 
-
-
-*/
-
+backtracking
+ */
 class Solution {
+private:
+    int n_;
+    int m_;
+    string target_;
+    vector<vector<char>> board_;
+    vector<vector<bool>> visited_;
 public:
-    bool exist(vector<vector<char>>& board, string word) {
-        int n = board.size();
-        int m = board[0].size();
-
-        vector<vector<int>> directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-
-        vector<vector<bool>> visited(n, vector<bool>(m, 0));
-
-        function<bool(int, int, string&)> backtrack = [&](int i, int j, string& currWord) {
-            if (currWord.size() < word.size() && board[i][j] != word[currWord.size()]) {
-                return false;
-            }
-
-            visited[i][j] = true;
-            currWord += board[i][j];
-
-            if (currWord == word) {
+    bool backtrack(int y, int x, string &currword) {
+        currword += board_[y][x];
+        visited_[y][x] = true;
+        if (currword == target_) {
+            return true;
+        }
+        if (y + 1 < n_ && board_[y + 1][x] == target_[currword.size()] && visited_[y + 1][x] == false) {
+            if (backtrack(y + 1, x, currword)) {
                 return true;
             }
-
-            for (int k = 0; k < 4; k++) {
-                int y = i + directions[k][0];
-                int x = j + directions[k][1];
-                if (y < n && y >= 0 && x < m && x >= 0 && !visited[y][x]) {
-                    if (backtrack(y, x, currWord)) {
-                        return true;
-                    }
-                }
+        } 
+        if (y - 1 >= 0 && board_[y - 1][x] == target_[currword.size()] && visited_[y - 1][x] == false) {
+            if (backtrack(y - 1, x, currword)) {
+                return true;
             }
+        }
+        if (x + 1 < m_ && board_[y][x + 1] == target_[currword.size()] && visited_[y][x + 1] == false) {
+            if (backtrack(y, x + 1, currword)) {
+                return true;
+            }
+        }
+        if (x - 1 >= 0 && board_[y][x - 1] == target_[currword.size()] && visited_[y][x - 1] == false) {
+            if (backtrack(y, x - 1, currword)) {
+                return true;
+            }
+        }
+        visited_[y][x] = false;
+        currword.pop_back();
+        return false;
+    }
 
-            visited[i][j] = false;
-            currWord.pop_back();
+    bool exist(vector<vector<char>>& board, string word) {
+        n_ = board.size();
+        m_ = board[0].size();
+        target_ = word;
+        board_ = board;
 
-            return false;
-        };
+        visited_ = vector<vector<bool>>(n_, vector<bool>(m_, false));
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
+        for (int i = 0; i < n_; i++) {
+            for (int j = 0; j < m_; j++) {
                 string s;
                 if (backtrack(i, j, s)) {
                     return true;
-                } 
+                }
             }
         }
 
