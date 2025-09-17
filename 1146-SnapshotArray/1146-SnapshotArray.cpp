@@ -1,27 +1,24 @@
-// Last updated: 7/10/2025, 4:00:43 PM
+// Last updated: 9/18/2025, 12:57:34 AM
 class SnapshotArray {
 private:
-    // index: index, key: snap_id, value: val
-    vector<map<int, int>> vec;
-    int snapId = 0;
+    vector<map<int, int>> snapArray;
+    int snapCount = 0;
 public:
-    SnapshotArray(int length) {
-        vec = vector<map<int, int>>(length, map<int, int>({{0, 0}}));
+    SnapshotArray(int length) : snapArray(length, {{0, 0}}) {
+        
     }
     
     void set(int index, int val) {
-        vec[index][snapId] = val;
+        snapArray[index][snapCount] = val;
     }
     
     int snap() {
-        snapId++;
-        return snapId - 1;
+        snapCount++;
+        return snapCount - 1;
     }
     
     int get(int index, int snap_id) {
-        auto it = vec[index].upper_bound(snap_id);
-        it--;
-        return it->second;
+        return (--snapArray[index].upper_bound(snap_id))->second;
     }
 };
 
