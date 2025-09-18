@@ -1,29 +1,28 @@
-// Last updated: 7/10/2025, 1:03:23 AM
+// Last updated: 9/18/2025, 1:38:46 PM
 /* 
-Minimum number of intervals to remove. 
-
-Sort by the 2nd value increasing. 
-Add the ones that end earliest first. 
+Insert as many as you possibly can by inserting whatever interval ends soonest.
  */
-
 class Solution {
 public:
+struct Order {
+    bool operator()(vector<int> a, vector<int> b) const {
+        if (a[1] == b[1]) {
+            return a[0] < b[0];
+        }
+        return a[1] < b[1];
+    }
+};
+
     int eraseOverlapIntervals(vector<vector<int>>& intervals) {
-        auto SORT = [](vector<int> &a, vector<int> &b) {
-            if (a[1] == b[1]) {
-                return a[0] < b[0];
-            }
-            return a[1] < b[1];
-        };
+        sort(intervals.begin(), intervals.end(), Order());
 
-        sort(intervals.begin(), intervals.end(), SORT);
-
+        // Place intervals
         int count = 0;
-        int lastTaken = INT_MIN;
-        for (const vector<int> &vec : intervals) {
-            if (vec[0] >= lastTaken) {
+        int lastEnd = INT_MIN;
+        for (vector<int> interval : intervals) {
+            if (interval[0] >= lastEnd) {
+                lastEnd = interval[1];
                 count++;
-                lastTaken = vec[1];
             }
         }
 
