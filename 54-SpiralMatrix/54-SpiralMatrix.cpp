@@ -1,27 +1,34 @@
-// Last updated: 9/18/2025, 1:21:51 AM
+// Last updated: 9/23/2025, 12:25:45 AM
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        int u = 0;
-        int d = matrix.size() - 1;
         int l = 0;
         int r = matrix[0].size() - 1;
+        int u = 0;
+        int d = matrix.size() - 1;
 
         vector<int> res;
-        while (u <= d && l <= r) {
-            for (int x = l; x <= r; x++) res.push_back(matrix[u][x]);
-            u++;
-            for (int y = u; y <= d; y++) res.push_back(matrix[y][r]);
-            r--;
-            if (u <= d) {
-                for (int x = r; x >= l; x--) res.push_back(matrix[d][x]);
-                d--;
+        while (l <= r && u <= d) {
+            for (int i = l; i <= r; i++) {
+                res.push_back(matrix[u][i]);
             }
-            if (l <= r) {
-                for (int y = d; y >= u; y--) res.push_back(matrix[y][l]);
+            u++;
+            for (int i = u; i <= d; i++) {
+                res.push_back(matrix[i][r]);
+            }
+            r--;
+            if (l <= r && u <= d) {
+                for (int i = r; i >= l; i--) {
+                    res.push_back(matrix[d][i]);
+                }
+                d--;
+                for (int i = d; i >= u; i--) {
+                    res.push_back(matrix[i][l]);
+                }
                 l++;
             }
         }
+
         return res;
     }
 };
