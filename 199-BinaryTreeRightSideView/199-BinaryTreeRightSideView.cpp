@@ -1,4 +1,4 @@
-// Last updated: 4/9/2025, 12:24:35 AM
+// Last updated: 9/23/2025, 1:38:01 AM
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -13,36 +13,33 @@
 class Solution {
 public:
     vector<int> rightSideView(TreeNode* root) {
-        // BFS works best for this because it goes level by level. 
-        // Just make sure that BFS does the left child before the right child each time.
-        vector<int> res;
-        if (root == nullptr) {
-            return res;
+        if (!root) {
+            return {};
         }
-        int prev_level = -1;
         queue<pair<TreeNode*, int>> q;
-        q.push({ root, 0 });
-        while(!q.empty()) {
-            pair<TreeNode*, int> curr_p = q.front();
-            q.pop();
+        vector<int> res;
 
-            TreeNode* currNode = curr_p.first;
-            int currLevel = curr_p.second;
-            if (currLevel != prev_level) {
-                prev_level = currLevel;
-                res.push_back(currNode->val);
+        res.push_back(root->val);
+        q.push({ root, 0 });
+        int currLevel = 0;
+        while (!q.empty()) {
+            pair<TreeNode*, int> curr = q.front();
+            q.pop();
+            if (curr.second == currLevel) {
+                res.back() = curr.first->val;
             } else {
-                res.back() = currNode->val;
+                currLevel = curr.second;
+                res.push_back(curr.first->val);
             }
 
-            if (currNode->left != nullptr) {
-                q.push({ currNode->left, currLevel + 1 });
-            } 
-            if (currNode->right != nullptr) {
-                q.push({ currNode->right, currLevel + 1 });
-            } 
+            if (curr.first->left) {
+                q.push({curr.first->left, curr.second + 1});
+            }
+            if (curr.first->right) {
+                q.push({curr.first->right, curr.second + 1});
+            }
         }
-        
+
         return res;
     }
 };
