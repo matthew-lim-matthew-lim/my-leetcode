@@ -1,38 +1,42 @@
+// Last updated: 9/24/2025, 6:55:37 PM
+/* 
+UnorderedMap {{ val, index }}
+Vector [ val ]
+
+If a value is removed, it is replaced with the last item in the vector, and the vector size is decremented. 
+If a value is added, it is appended to the end of the vector.
+ */
 class RandomizedSet {
 private:
-    // Unordered map records index in vector where the number is.
-    unordered_map<int, int> indexMap;
-    // When a number is removed, the value in the vector for that number points to the number at the end. 
-    vector<int> values;
+    vector<int> vec;
+    unordered_map<int, int> itemMap;
 public:
-    RandomizedSet() : values(200000, 0) {
+    RandomizedSet() {
         
     }
     
     bool insert(int val) {
-        if (indexMap.contains(val)) {
+        if (itemMap.contains(val)) {
             return false;
-        } else {
-            values[indexMap.size()] = val;
-            indexMap[val] = indexMap.size();
-            return true;
         }
+        itemMap[val] = vec.size();
+        vec.push_back(val);
+        return true;
     }
     
     bool remove(int val) {
-        if (!indexMap.contains(val)) {
+        if (!itemMap.contains(val)) {
             return false;
-        } else {
-            values[indexMap[val]] = values[indexMap.size() - 1];
-            indexMap[values[indexMap.size() - 1]] = indexMap[val];
-            indexMap.erase(val);
-            return true;
         }
+        itemMap[vec[vec.size() - 1]] = itemMap[val];
+        vec[itemMap[val]] = vec[vec.size() - 1];
+        vec.pop_back();
+        itemMap.erase(val);
+        return true;
     }
     
     int getRandom() {
-        int index = rand() % indexMap.size();
-        return values[index];
+        return vec[rand() % vec.size()];
     }
 };
 
