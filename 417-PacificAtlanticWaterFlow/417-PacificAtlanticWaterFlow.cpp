@@ -1,121 +1,109 @@
+// Last updated: 9/24/2025, 6:40:56 PM
+/* 
+Brute force BFS from the edge squares (BFS from multiple sources).
+Each edge square can go to a square >= the current square.
+ */
 class Solution {
 public:
+    struct Reach {
+        bool pacific = false;
+        bool atlantic = false;
+    };
+
     vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
-        // Find all the cells that can reach the Pacific Ocean. Then, find all the cells
-        // that can reach the Atlantic Ocean. 
-        // Return the intersection of the groups. 
+        int n = heights.size();
+        int m = heights[0].size();
 
-        // Finding cells that can reach the Pacific Ocean: 
-        // Start at TOP and LEFT edges, adding them to a BFS queue. 
-        // Allow the BFS to explore, only allowing travel to adjacent squares with greater height.
-        unordered_map<int, unordered_set<int>> pacific_visited;
-        stack<pair<int, int>> bfsStack;
-        bfsStack.push({ 0, 0 });
-        pacific_visited[0].insert(0);
-        for (int i = 1; i < heights.size(); i++) {
-            bfsStack.push({i, 0});
-            pacific_visited[i].insert(0);
+        vector<vector<Reach>> valid(n, vector<Reach>(m));
+
+        // Mark all squares that can reach pacific first
+
+        queue<pair<int, int>> q;
+        vector<vector<bool>> visited(n, vector<bool>(m, false));
+
+        for (int i = 0; i < n; i++) {
+            valid[i][0].pacific = true;
+            q.push({ i, 0 });
+            visited[i][0] = true;
         }
-        for (int i = 1; i < heights[0].size(); i++) {
-            bfsStack.push({ 0, i });
-            pacific_visited[0].insert(i);
+        for (int i = 0; i < m; i++) {
+            valid[0][i].pacific = true;
+            q.push({ 0, i });
+            visited[0][i] = true;
         }
-        while (!bfsStack.empty()) {
-            pair<int, int> curr = bfsStack.top();
-            bfsStack.pop();
 
-            int y = curr.first;
-            int x = curr.second;
+        while (!q.empty()) {
+            auto [ y, x ] = q.front();
+            q.pop();
 
-            if (y + 1 < heights.size() && 
-                heights[y + 1][x] >= heights[y][x] && 
-                (!pacific_visited.contains(y + 1) || !pacific_visited[y + 1].contains(x))
-            ) {
-                bfsStack.push({ y + 1, x });
-                pacific_visited[y + 1].insert(x);
+            valid[y][x].pacific = true;
+
+            if (y + 1 < n && !visited[y + 1][x] && heights[y + 1][x] >= heights[y][x]) {
+                q.push({ y + 1, x });
+                visited[y + 1][x] = true;
             }
-            if (y - 1 >= 0 && 
-                heights[y - 1][x] >= heights[y][x] && 
-                (!pacific_visited.contains(y - 1) || !pacific_visited[y - 1].contains(x))
-            ) {
-                bfsStack.push({ y - 1, x });
-                pacific_visited[y - 1].insert(x);
+            if (y - 1 >= 0 && !visited[y - 1][x] && heights[y - 1][x] >= heights[y][x]) {
+                q.push({ y - 1, x });
+                visited[y - 1][x] = true;
             }
-            if (x + 1 < heights[0].size() && 
-                heights[y][x + 1] >= heights[y][x] && 
-                (!pacific_visited.contains(y) || !pacific_visited[y].contains(x + 1))
-            ) {
-                bfsStack.push({ y, x + 1 });
-                pacific_visited[y].insert(x + 1);
+            if (x + 1 < m && !visited[y][x + 1] && heights[y][x + 1] >= heights[y][x]) {
+                q.push({ y, x + 1 });
+                visited[y][x + 1] = true;
             }
-            if (x - 1 >= 0 && 
-                heights[y][x - 1] >= heights[y][x] && 
-                (!pacific_visited.contains(y) || !pacific_visited[y].contains(x - 1))
-            ) {
-                bfsStack.push({ y, x - 1 });
-                pacific_visited[y].insert(x - 1);
+            if (x - 1 >= 0 && !visited[y][x - 1] && heights[y][x - 1] >= heights[y][x]) {
+                q.push({ y, x - 1 });
+                visited[y][x - 1] = true;
+            }
+        }
+
+        // Now, mark all squares that can reach atlantic
+        visited.assign(n, vector<bool>(m, false));
+
+        for (int i = 0; i < n; i++) {
+            valid[i][m - 1].atlantic = true;
+            q.push({ i, m - 1 });
+            visited[i][m - 1] = true;
+        }
+        for (int i = 0; i < m; i++) {
+            valid[n - 1][i].atlantic = true;
+            q.push({ n - 1, i });
+            visited[n - 1][i] = true;
+        }
+
+        while (!q.empty()) {
+            auto [ y, x ] = q.front();
+            q.pop();
+
+            valid[y][x].atlantic = true;
+
+            if (y + 1 < n && !visited[y + 1][x] && heights[y + 1][x] >= heights[y][x]) {
+                q.push({ y + 1, x });
+                visited[y + 1][x] = true;
+            }
+            if (y - 1 >= 0 && !visited[y - 1][x] && heights[y - 1][x] >= heights[y][x]) {
+                q.push({ y - 1, x });
+                visited[y - 1][x] = true;
+            }
+            if (x + 1 < m && !visited[y][x + 1] && heights[y][x + 1] >= heights[y][x]) {
+                q.push({ y, x + 1 });
+                visited[y][x + 1] = true;
+            }
+            if (x - 1 >= 0 && !visited[y][x - 1] && heights[y][x - 1] >= heights[y][x]) {
+                q.push({ y, x - 1 });
+                visited[y][x - 1] = true;
             }
         }
         
-        // Finding cells that can reach the Atlantic Ocean
-        unordered_map<int, unordered_set<int>> atlantic_visited;
-        bfsStack.push({ heights.size() - 1, heights[0].size() - 1 });
-        atlantic_visited[heights.size() - 1].insert(heights[0].size() - 1);
-        for (int i = 0; i < heights.size() - 1; i++) {
-            bfsStack.push({i, heights[0].size() - 1});
-            atlantic_visited[i].insert(heights[0].size() - 1);
-        }
-        for (int i = 0; i < heights[0].size() - 1; i++) {
-            bfsStack.push({ heights.size() - 1, i });
-            atlantic_visited[heights.size() - 1].insert(i);
-        }
-        while (!bfsStack.empty()) {
-            pair<int, int> curr = bfsStack.top();
-            bfsStack.pop();
-
-            int y = curr.first;
-            int x = curr.second;
-
-            if (y + 1 < heights.size() && 
-                heights[y + 1][x] >= heights[y][x] && 
-                (!atlantic_visited.contains(y + 1) || !atlantic_visited[y + 1].contains(x))
-            ) {
-                bfsStack.push({ y + 1, x });
-                atlantic_visited[y + 1].insert(x);
-            }
-            if (y - 1 >= 0 && 
-                heights[y - 1][x] >= heights[y][x] && 
-                (!atlantic_visited.contains(y - 1) || !atlantic_visited[y - 1].contains(x))
-            ) {
-                bfsStack.push({ y - 1, x });
-                atlantic_visited[y - 1].insert(x);
-            }
-            if (x + 1 < heights[0].size() && 
-                heights[y][x + 1] >= heights[y][x] && 
-                (!atlantic_visited.contains(y) || !atlantic_visited[y].contains(x + 1))
-            ) {
-                bfsStack.push({ y, x + 1 });
-                atlantic_visited[y].insert(x + 1);
-            }
-            if (x - 1 >= 0 && 
-                heights[y][x - 1] >= heights[y][x] && 
-                (!atlantic_visited.contains(y) || !atlantic_visited[y].contains(x - 1))
-            ) {
-                bfsStack.push({ y, x - 1 });
-                atlantic_visited[y].insert(x - 1);
-            }
-        }
+        // Collect all the answers
 
         vector<vector<int>> res;
-        for (const pair<int, unordered_set<int>>& entry : pacific_visited) {
-            int y = entry.first;
-            for (int x : entry.second) {
-                if (atlantic_visited.contains(y) && atlantic_visited[y].contains(x)) {
-                    res.push_back({ y, x });
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (valid[i][j].pacific && valid[i][j].atlantic) {
+                    res.push_back({ i, j });
                 }
             }
         }
-
         return res;
     }
 };
