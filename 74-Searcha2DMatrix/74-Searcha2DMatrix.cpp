@@ -1,4 +1,4 @@
-// Last updated: 9/24/2025, 9:07:21 PM
+// Last updated: 9/24/2025, 9:07:38 PM
 /* 
 Whenever we have a mismatch, we can eliminate a rectangle of numbers. 
 Eg. if matrix[i][j] < target, then eliminate matrix[0..i][0..j].
@@ -14,7 +14,6 @@ private:
     int m_;
 public:
     bool search(int tly, int tlx, int bry, int brx) {
-        // cout << tly << " " << tlx << " " << bry << " " << brx << endl;
         if (tly > bry || tlx > brx || 
             bry >= n_ || bry < 0 || tly >= n_ || tly < 0 ||
             tlx >= m_ || tlx < 0 || brx >= m_ || brx < 0
