@@ -1,4 +1,4 @@
-// Last updated: 11/30/2025, 6:37:39 PM
+// Last updated: 11/30/2025, 6:38:45 PM
 1/* 
 2For each node, go the the children. For each child, count the number of children. 
 3
@@ -23,64 +23,68 @@
 22You probably need to do it in topological order for it to work correctly. This is kind of hard. 
 23
 24Using Kahns algorithm we can lowkey do it. 
-25 */
-26
-27class Solution {
-28public:
-29    long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
-30        // Make adjacency list
-31        int n = roads.size() + 1;
-32        vector<vector<int>> adjList(n, vector<int>());
-33        vector<int> indegree(n, 0);
-34        for (vector<int> &road : roads) {
-35            adjList[road[0]].push_back(road[1]);
-36            adjList[road[1]].push_back(road[0]);
-37            indegree[road[0]]++;
-38            indegree[road[1]]++;
-39        }
-40
-41        // Kahns algorithm
-42        vector<long long> nodeWeight(n, 0);
-43
-44        queue<int> q;
-45        for (int i = 1; i < n; i++) {
-46            if (indegree[i] == 1) {
-47                q.push(i);
-48            }
-49            nodeWeight[i] = 1;
-50        }
-51
-52        long long res = 0;
-53        vector<int> topo;
-54        while (!q.empty()) {
-55            int u = q.front();
-56            q.pop();
-57
-58            topo.push_back(u);
-59
-60            res += (nodeWeight[u] + seats - 1) / seats;
+25
+26Fixes to key difficulties I got to:
+27- Every vertex starts with weight 1.
+28- Regardless if we enqueue the next node or not, we add the current node weight into the next node. 
+29 */
+30
+31class Solution {
+32public:
+33    long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
+34        // Make adjacency list
+35        int n = roads.size() + 1;
+36        vector<vector<int>> adjList(n, vector<int>());
+37        vector<int> indegree(n, 0);
+38        for (vector<int> &road : roads) {
+39            adjList[road[0]].push_back(road[1]);
+40            adjList[road[1]].push_back(road[0]);
+41            indegree[road[0]]++;
+42            indegree[road[1]]++;
+43        }
+44
+45        // Kahns algorithm
+46        vector<long long> nodeWeight(n, 0);
+47
+48        queue<int> q;
+49        for (int i = 1; i < n; i++) {
+50            if (indegree[i] == 1) {
+51                q.push(i);
+52            }
+53            nodeWeight[i] = 1;
+54        }
+55
+56        long long res = 0;
+57        vector<int> topo;
+58        while (!q.empty()) {
+59            int u = q.front();
+60            q.pop();
 61
-62            // cout << u << ", " << ceil(nodeWeight[u] / 2.0) << endl;
+62            topo.push_back(u);
 63
-64            for (int v : adjList[u]) {
-65                if (indegree[v] > 0) {
-66                    if (--indegree[v] == 1 && v != 0) {
-67                        // Process the node
-68                        q.push(v);
-69                    }
-70                    nodeWeight[v] += nodeWeight[u];
-71                }
-72            }
-73        }
-74
-75        for (int i = 0; i < nodeWeight.size(); i++) {
-76            // cout << i << ", " << nodeWeight[i] << endl;
+64            res += (nodeWeight[u] + seats - 1) / seats;
+65
+66            // cout << u << ", " << ceil(nodeWeight[u] / 2.0) << endl;
+67
+68            for (int v : adjList[u]) {
+69                if (indegree[v] > 0) {
+70                    if (--indegree[v] == 1 && v != 0) {
+71                        // Process the node
+72                        q.push(v);
+73                    }
+74                    nodeWeight[v] += nodeWeight[u];
+75                }
+76            }
 77        }
 78
-79        for (int v : topo) {
-80            // cout << v << endl;
+79        for (int i = 0; i < nodeWeight.size(); i++) {
+80            // cout << i << ", " << nodeWeight[i] << endl;
 81        }
 82
-83        return res;
-84    }
-85};
+83        for (int v : topo) {
+84            // cout << v << endl;
+85        }
+86
+87        return res;
+88    }
+89};
