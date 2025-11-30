@@ -1,21 +1,25 @@
-class Solution {
-public:
-    int maxProfit(vector<int>& prices) {
-        // Prefix min, and Suffix max.
-        vector<int> pre_min(prices.size(), prices[0]);
-        vector<int> suf_max(prices.size(), prices[prices.size() - 1]);
-        for (int i = 1; i < prices.size(); i++) {
-            pre_min[i] = min(prices[i], pre_min[i - 1]);
-        }
-        for (int i = prices.size() - 2; i >= 0; i--) {
-            suf_max[i] = max(prices[i], suf_max[i + 1]);
-        }
-
-        int max_profit = 0;
-        for (int i = 1; i < prices.size(); i++) {
-            max_profit = max(max_profit, suf_max[i] - pre_min[i - 1]);
-        }
-
-        return max_profit;
-    }
-};
+// Last updated: 11/30/2025, 4:10:17 PM
+1/* 
+2Traverse backwards. 
+3Keep track of the biggest number.
+4When you reach a bigger number, update it. 
+5Track the biggest difference. 
+6 */
+7class Solution {
+8public:
+9    int maxProfit(vector<int>& prices) {
+10        int n = prices.size();
+11        int currLargest = prices.back();
+12        int biggestDiff = 0;
+13        for (int i = n - 1; i >= 0; i--) {
+14            if (prices[i] > currLargest) {
+15                currLargest = prices[i];
+16            }
+17            if (currLargest - prices[i] > biggestDiff) {
+18                biggestDiff = currLargest - prices[i];
+19            }
+20        }
+21
+22        return biggestDiff;
+23    }
+24};
