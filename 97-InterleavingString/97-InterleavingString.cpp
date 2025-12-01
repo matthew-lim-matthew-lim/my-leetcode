@@ -1,44 +1,56 @@
-class Solution {
-public:
-    bool isInterleave(string s1, string s2, string s3) {
-        if (s1.size() == 0 && s2 != s3) return false;
-        if (s2.size() == 0 && s1 != s3) return false;
-        if (s3.size() == 0 && s1.size() == 0 && s2.size() == 0) return true; 
-        if (s1.size() + s2.size() != s3.size()) return false;
-        // opt(i, j) = opt(i - 1, j) && s3[i + j] == s1[i] || opt(i, j - 1) && s3[i + j] == s2[j];
-        vector<vector<bool>> dp(s1.size() + 1, vector<bool>(s2.size() + 1, false));
-        // for (int i = 0; i < s1.size() + 1; i++) {
-        //     dp[i][0] = true;
-        // }
-        // for (int j = 0; j < s2.size() + 1; j++) {
-        //     dp[0][j] = true;
-        // }
-        dp[0][0] = true;
-        for (int i = 1; i <= s1.size(); i++) {
-            dp[i][0] = dp[i-1][0] && s1[i-1] == s3[i-1];
-        }
-        for (int j = 1; j <= s2.size(); j++) {
-            dp[0][j] = dp[0][j-1] && s2[j-1] == s3[j-1];
-        }
-
-        for (int i = 1; i < s1.size() + 1; i++) {
-            for (int j = 1; j < s2.size() + 1; j++) {
-                if (i == 0 && j == 0) continue;
-
-                bool up = dp[i - 1][j] && s3[i + j - 1] == s1[i - 1];
-                bool left = dp[i][j - 1] && s3[i + j - 1] == s2[j - 1];
-
-                dp[i][j] = up || left;
-            }
-        }
-
-        for (int i = 0; i < s1.size(); i++) {
-            for (int j = 0; j < s2.size(); j++) {
-                cout << dp[i][j] << " ";
-            }
-            cout << endl;
-        }
-
-        return dp[s1.size()][s2.size()];
-    }
-};
+// Last updated: 12/1/2025, 11:53:20 PM
+1/* 
+2Ts hard bro
+3
+4- dp[i][j] where i + j = index in s3.
+5
+6s1[i] == s3[i+j]
+7dp[i][j] = max(dp[i][j], dp[i-1][j]);
+8
+9s2[j] == s3[i+j]
+10dp[i][j] = max(dp[i][j], dp[i][j-1]);
+11 */
+12class Solution {
+13public:
+14    bool isInterleave(string s1, string s2, string s3) {
+15        int n = s1.size();
+16        int m = s2.size();
+17
+18        if (n + m != s3.size()) {
+19            return false;
+20        }
+21
+22        vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
+23        dp[0][0] = 1;
+24        for (int i = 1; i < n+1; i++) {
+25            if (s1[i-1] == s3[i-1]) {
+26                dp[i][0] = dp[i-1][0];
+27            }
+28        }
+29        for (int j = 1; j < m+1; j++) {
+30            if (s2[j-1] == s3[j-1]) {
+31                dp[0][j] = dp[0][j-1];
+32            }
+33        }
+34
+35        for (int i = 1; i < n+1; i++) {
+36            for (int j = 1; j < m+1; j++) {
+37                if (s1[i-1] == s3[i+j-1]) {
+38                    dp[i][j] = max(dp[i][j], dp[i-1][j]);
+39                }
+40                if (s2[j-1] == s3[i+j-1]) {
+41                    dp[i][j] = max(dp[i][j], dp[i][j-1]);
+42                }
+43            }
+44        }
+45
+46        // for (int i = 0; i < n+1; i++) {
+47        //     for (int j = 0; j < m+1; j++) {
+48        //         cout << dp[i][j] << " ";
+49        //     }
+50        //     cout << endl;
+51        // }
+52
+53        return dp[n][m];
+54    }
+55};
