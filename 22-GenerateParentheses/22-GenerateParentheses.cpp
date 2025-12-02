@@ -1,4 +1,4 @@
-// Last updated: 12/2/2025, 11:54:41 PM
+// Last updated: 12/2/2025, 11:56:15 PM
 1/* 
 2Backtracking.
 3
@@ -11,23 +11,28 @@
 10    int maxOpens;
 11    vector<string> res;
 12
-13    void backtrack(string currString, int currOpens, int currCloses) {
+13    void backtrack(string &currString, int currOpens, int currCloses) {
 14        if (currOpens < maxOpens) {
-15            backtrack(currString + "(", currOpens + 1, currCloses);
-16        }
-17        if (currCloses < currOpens) {
-18            backtrack(currString + ")", currOpens, currCloses + 1);
-19        }
-20        if (currOpens == maxOpens && currOpens == currCloses) {
-21            res.push_back(currString);
-22        }
-23    }
-24
-25    vector<string> generateParenthesis(int n) {
-26        maxOpens = n;
-27
-28        backtrack("", 0, 0);
-29
-30        return res;
-31    }
-32};
+15            currString += "(";
+16            backtrack(currString, currOpens + 1, currCloses);
+17            currString.pop_back();
+18        }
+19        if (currCloses < currOpens) {
+20            currString += ")";
+21            backtrack(currString, currOpens, currCloses + 1);
+22            currString.pop_back();
+23        }
+24        if (currOpens == maxOpens && currOpens == currCloses) {
+25            res.push_back(currString);
+26        }
+27    }
+28
+29    vector<string> generateParenthesis(int n) {
+30        maxOpens = n;
+31
+32        string curr;
+33        backtrack(curr, 0, 0);
+34
+35        return res;
+36    }
+37};
