@@ -1,4 +1,4 @@
-// Last updated: 3/1/2026, 4:25:23 PM
+// Last updated: 3/1/2026, 4:25:30 PM
 1/*
 2Note that the integers are distinct.
 3
@@ -37,7 +37,7 @@
 36            nums.begin(),
 37            find(nums.begin(), nums.end(), k)
 38        );
-39        cout << index << endl;
+39        // cout << index << endl;
 40        
 41        int bigger = 0;
 42        int smaller = 0;
