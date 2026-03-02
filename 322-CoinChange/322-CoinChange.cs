@@ -1,4 +1,4 @@
-// Last updated: 3/2/2026, 11:16:17 PM
+// Last updated: 3/2/2026, 11:16:25 PM
 1/* 
 2For each amount up to 'amount', find the lowest number of coins to make it.
 3
@@ -24,9 +24,9 @@
 23            }
 24        }
 25
-26        for (int i = 1; i <= amount; i++) {
-27            Console.WriteLine($"{i} with amount {dp[amount]}");
-28        }
+26        // for (int i = 1; i <= amount; i++) {
+27        //     Console.WriteLine($"{i} with amount {dp[amount]}");
+28        // }
 29
 30        return dp[amount] == amount + 1 ? -1 : dp[amount];
 31    }
