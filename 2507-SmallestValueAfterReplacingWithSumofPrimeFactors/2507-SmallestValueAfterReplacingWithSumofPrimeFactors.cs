@@ -1,4 +1,4 @@
-// Last updated: 3/2/2026, 10:50:09 PM
+// Last updated: 3/2/2026, 10:50:20 PM
 1public class Solution {
 2    public int sumOfPrimes(int n) {
 3        int res = 0;
