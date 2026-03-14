@@ -1,22 +1,20 @@
-# Last updated: 3/14/2026, 2:59:13 PM
+# Last updated: 3/14/2026, 2:59:37 PM
 1"""
 2dp[i] = max[dp[i-1], dp[i-2] + nums[i])
 3"""
 4class Solution:
 5    def rob(self, nums: List[int]) -> int:
-6        n: int = len(nums)
-7
-8        if n == 1:
-9            return nums[0]
-10        elif n == 2:
-11            return max(nums[0], nums[1]) 
-12
-13        prev: int = nums[0]
-14        curr: int = max(nums[0], nums[1])
-15
-16        for i in range(2, n):
-17            new_curr = max(curr, prev + nums[i])
-18            prev = curr
-19            curr = new_curr
-20
-21        return new_curr
+6        if len(nums) == 1:
+7            return nums[0]
+8        elif len(nums) == 2:
+9            return max(nums[0], nums[1]) 
+10
+11        prev: int = nums[0]
+12        curr: int = max(nums[0], nums[1])
+13
+14        for i in range(2, len(nums)):
+15            new_curr = max(curr, prev + nums[i])
+16            prev = curr
+17            curr = new_curr
+18
+19        return new_curr
