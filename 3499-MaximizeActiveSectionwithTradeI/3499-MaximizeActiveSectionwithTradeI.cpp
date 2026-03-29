@@ -1,4 +1,4 @@
-// Last updated: 3/29/2026, 7:59:00 PM
+// Last updated: 3/29/2026, 7:59:10 PM
 1/* 
 2Can convert a window of '0' with a '1' into a complete section of '1'. 
 3
@@ -68,20 +68,17 @@
 67                if (breakAction) {
 68                    continue;
 69                }
-70                if (next0 == n || next0 >= r) {
-71                    continue;
-72                }
-73                // cout << "GRRR " << next0 << " " << r << endl;
-74                res = max(res, r - next0 + 1 + baseLine - thisCurr);
-75            } else if (blockCount == 2) {
-76                while (s[l] == '0') {
-77                    l++;
-78                }
-79                // cout << r << " " << l << " " << currCount << " " << baseLine << endl;
-80                res = max(res, r - l + 1 + baseLine - currCount);
-81            }
-82        }
-83
-84        return res;
-85    }
-86};
+70                // cout << "GRRR " << next0 << " " << r << endl;
+71                res = max(res, r - next0 + 1 + baseLine - thisCurr);
+72            } else if (blockCount == 2) {
+73                while (s[l] == '0') {
+74                    l++;
+75                }
+76                // cout << r << " " << l << " " << currCount << " " << baseLine << endl;
+77                res = max(res, r - l + 1 + baseLine - currCount);
+78            }
+79        }
+80
+81        return res;
+82    }
+83};
