@@ -1,4 +1,4 @@
-// Last updated: 3/31/2026, 10:07:48 AM
+// Last updated: 3/31/2026, 10:14:05 AM
 1/* 
 2See if you can match all the odd indicies.
 3See if you can match all the even indicies.
@@ -6,23 +6,30 @@
 5class Solution {
 6public:
 7    bool checkStrings(string s1, string s2) {
-8        multiset<char> oddS1;
-9        multiset<char> oddS2;
-10        multiset<char> evenS1;
-11        multiset<char> evenS2;
+8        vector<int> charCountOdd(26, 0);
+9        vector<int> charCountEven(26, 0);
+10
+11        int n = s1.size();
 12
-13        int n = s1.size();
-14
-15        for (int i = 0; i < n; i++) {
-16            if (i % 2 == 0) {
-17                evenS1.insert(s1[i]);
-18                evenS2.insert(s2[i]);
-19            } else {
-20                oddS1.insert(s1[i]);
-21                oddS2.insert(s2[i]);
-22            }
-23        }
-24
-25        return evenS1 == evenS2 && oddS1 == oddS2;
-26    }
-27};
+13        for (int i = 0; i < n; i++) {
+14            if (i % 2 == 0) {
+15                charCountEven[s1[i] - 'a']++;
+16                charCountEven[s2[i] - 'a']--;
+17            } else {
+18                charCountOdd[s1[i] - 'a']++;
+19                charCountOdd[s2[i] - 'a']--;
+20            }
+21        }
+22
+23        for (int i = 0; i < 26; i++) {
+24            if (charCountOdd[i] != 0) {
+25                return false;
+26            }
+27            if (charCountEven[i] != 0) {
+28                return false;
+29            }
+30        }
+31
+32        return true;
+33    }
+34};
