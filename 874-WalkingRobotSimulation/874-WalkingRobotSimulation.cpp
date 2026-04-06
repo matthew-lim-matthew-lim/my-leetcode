@@ -1,4 +1,4 @@
-// Last updated: 4/7/2026, 12:25:35 AM
+// Last updated: 4/7/2026, 12:25:47 AM
 1class Direction;
 2
 3class Coord {
@@ -72,34 +72,32 @@
 71        Coord pos;
 72        Direction dir;
 73
-74        // pos += dir;
+74        int res = 0;
 75
-76        int res = 0;
-77
-78        for (int cmd : commands) {
-79            if (cmd == -2) {
-80                dir.rotateLeft();
-81                continue;
-82            } 
-83
-84            if (cmd == -1) {
-85                dir.rotateRight();
-86                continue;
-87            }
-88
-89            for (int i = 1; i <= cmd; i++) {
-90                if (
-91                    obstacleMap.contains((pos + dir).y) &&
-92                    obstacleMap[(pos + dir).y].contains((pos + dir).x)
-93                ) {
-94                    break;
-95                }
-96                pos += dir;
-97            }
-98
-99            res = max(res, (int)pow(pos.x, 2) + (int)pow(pos.y, 2));
-100        }
-101
-102        return res;
-103    }
-104};
+76        for (int cmd : commands) {
+77            if (cmd == -2) {
+78                dir.rotateLeft();
+79                continue;
+80            } 
+81
+82            if (cmd == -1) {
+83                dir.rotateRight();
+84                continue;
+85            }
+86
+87            for (int i = 1; i <= cmd; i++) {
+88                if (
+89                    obstacleMap.contains((pos + dir).y) &&
+90                    obstacleMap[(pos + dir).y].contains((pos + dir).x)
+91                ) {
+92                    break;
+93                }
+94                pos += dir;
+95            }
+96
+97            res = max(res, (int)pow(pos.x, 2) + (int)pow(pos.y, 2));
+98        }
+99
+100        return res;
+101    }
+102};
