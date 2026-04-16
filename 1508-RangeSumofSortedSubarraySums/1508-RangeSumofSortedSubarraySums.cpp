@@ -1,35 +1,24 @@
-// Last updated: 4/17/2026, 12:02:21 AM
-1/* 
-2
-3 */
-4class Solution {
-5public:
-6    int rangeSum(vector<int>& nums, int n, int left, int right) {
-7        vector<int> subSum;
-8        for (int i = 0; i < n; i++) {
-9            for (int j = i; j < n; j++) {
-10                int currSum = 0;
-11                for (int k = i; k <= j; k++) {
-12                    // cout << i << " " << j << " " << k << endl;
-13                    currSum += nums[k];
-14                }
-15                subSum.push_back(currSum);
-16            }
-17        }
-18
-19        sort(subSum.begin(), subSum.end());
-20
-21        // for (int i = 0; i < subSum.size(); i++) {
-22        //     cout << subSum[i] << endl;
-23        // }
-24
-25        long long res = 0;
-26
-27        for (int i = left-1; i <= right-1; i++) {
-28            res += subSum[i];
-29            res %= 1'000'000'007;
-30        }
-31
-32        return res;
-33    }
-34};
+// Last updated: 4/17/2026, 12:17:25 AM
+1class Solution {
+2public:
+3    int rangeSum(vector<int>& nums, int n, int left, int right) {
+4        // prefix sums
+5
+6        vector<long long> pre(n + 1, 0);
+7        for (int i = 1; i <= n; i++) {
+8            pre[i] = pre[i - 1] + nums[i - 1];
+9        }
+10        vector<long long> res;
+11        for (int i = 1; i <= n; i++) {
+12            for (int j = i; j <= n; j++) {
+13                res.push_back(pre[j] - pre[i - 1]);
+14            }
+15        }
+16        sort(res.begin(), res.end());
+17        long long sum = 0;
+18        for (int i = left - 1; i < right; i++) {
+19            sum = (sum + res[i]) % 1'000'000'007;
+20        }
+21        return sum;
+22    }
+23};
