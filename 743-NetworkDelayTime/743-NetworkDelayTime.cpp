@@ -1,43 +1,44 @@
-// Last updated: 4/25/2026, 8:00:29 PM
-1class Solution {
-2public:
-3    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-4        vector<vector<vector<int>>> adjList(n);
-5        for (const vector<int> &time : times) {
-6            adjList[time[0]-1].push_back({ time[1]-1, time[2] });
-7        }
-8
-9        vector<int> res(n, INT_MAX);
-10        res[k-1] = 0;
-11
-12        priority_queue<vector<int>> pq;
-13        pq.push({0, k-1});
-14
-15        while (!pq.empty()) {
-16            int d = pq.top()[0];
-17            int u = pq.top()[1];
-18            pq.pop();
-19
-20            if (res[u] < d) {
-21                continue;
-22            }
-23
-24            for (const vector<int> &neigh : adjList[u]) {
-25                int v = neigh[0];
-26                int w = neigh[1];
-27
-28                if (res[v] > res[u] + w) {
-29                    res[v] = res[u] + w;
-30                    pq.push({
-31                        res[u] + w,
-32                        v
-33                    });
-34                }
-35            }
-36        }
-37
-38        int finalRes = *max_element(res.begin(), res.end());
-39
-40        return finalRes == INT_MAX ? -1 : finalRes;
-41    }
-42};
+// Last updated: 4/25/2026, 8:02:18 PM
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        vector<vector<pair<int,int>>> adj(n + 1);
+        
+        // Build graph
+        for (auto &t : times) {
+            adj[t[0]].push_back({t[1], t[2]});
+        }
+        
+        // Min heap: {distance, node}
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        
+        vector<int> dist(n + 1, INT_MAX);
+        dist[k] = 0;
+        pq.push({0, k});
+        
+        while (!pq.empty()) {
+            auto [d, node] = pq.top();
+            pq.pop();
+            
+            if (d > dist[node]) continue;
+            
+            for (auto &[neighbor, weight] : adj[node]) {
+                if (dist[neighbor] > d + weight) {
+                    dist[neighbor] = d + weight;
+                    pq.push({dist[neighbor], neighbor});
+                }
+            }
+        }
+        
+        int maxTime = 0;
+        for (int i = 1; i <= n; i++) {
+            if (dist[i] == INT_MAX) return -1;
+            maxTime = max(maxTime, dist[i]);
+        }
+        
+        return maxTime;
+    }
+};
