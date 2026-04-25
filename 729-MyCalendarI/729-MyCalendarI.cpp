@@ -1,4 +1,4 @@
-// Last updated: 4/25/2026, 2:20:50 PM
+// Last updated: 4/25/2026, 2:21:25 PM
 1/* 
 2Use a set.
 3 */
@@ -15,20 +15,18 @@
 14
 15        if (it == times.begin()) {
 16            times.insert({startTime, endTime - startTime});
-17        } else {
-18            if ((*prev(it))[0] + (*prev(it))[1] <= startTime) {
-19                times.insert({startTime, endTime - startTime});
-20            } else {
-21                return false;
-22            }
-23        }
-24
-25        return true;
-26    }
-27};
-28
-29/**
-30 * Your MyCalendar object will be instantiated and called as such:
-31 * MyCalendar* obj = new MyCalendar();
-32 * bool param_1 = obj->book(startTime,endTime);
-33 */
+17            return true;
+18        } else if ((*prev(it))[0] + (*prev(it))[1] <= startTime) {
+19            times.insert({startTime, endTime - startTime});
+20            return true;
+21        }
+22
+23        return false;
+24    }
+25};
+26
+27/**
+28 * Your MyCalendar object will be instantiated and called as such:
+29 * MyCalendar* obj = new MyCalendar();
+30 * bool param_1 = obj->book(startTime,endTime);
+31 */
