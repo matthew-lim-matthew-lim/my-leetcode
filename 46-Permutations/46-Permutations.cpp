@@ -1,9 +1,9 @@
-// Last updated: 4/26/2026, 11:39:59 PM
+// Last updated: 4/26/2026, 11:40:22 PM
 1class Solution {
 2private:
 3    vector<vector<int>> res;
 4public:
-5    void backtrack(vector<int> curr, unordered_map<int, bool> &remaining) {
+5    void backtrack(vector<int> &curr, unordered_map<int, bool> &remaining) {
 6        bool valid = false;
 7        for (auto p : remaining) {
 8            if (p.second) {
@@ -28,8 +28,9 @@
 27            remaining[num] = true;
 28        }
 29
-30        backtrack({}, remaining);
-31
-32        return res;
-33    }
-34};
+30        vector<int> curr;
+31        backtrack(curr, remaining);
+32
+33        return res;
+34    }
+35};
