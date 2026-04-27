@@ -1,4 +1,4 @@
-// Last updated: 4/27/2026, 9:21:11 PM
+// Last updated: 4/27/2026, 9:21:53 PM
 1class Solution {
 2public:
 3    int peakIndexInMountainArray(vector<int>& arr) {
@@ -9,7 +9,7 @@
 8        while (lo < hi) {
 9            // cout << lo << " " << hi << endl;
 10            int mid = (hi + lo) / 2;
-11            if (mid+1 < n && arr[mid] < arr[mid+1]) {
+11            if (arr[mid] < arr[mid+1]) {
 12                lo = mid+1;
 13            } else {
 14                hi = mid;
