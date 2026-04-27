@@ -1,39 +1,28 @@
-// Last updated: 7/13/2025, 7:19:55 PM
-/* 
-Track as events, and when going from 0->1 event or from 1->0 event, start/end an interval. 
-*/
-
-class Solution {
-public:
-    vector<vector<int>> merge(vector<vector<int>>& intervals) {
-        vector<vector<int>> events;
-
-        for (vector<int> &interval : intervals) {
-            events.push_back({ interval[0], 0 });
-            events.push_back({ interval[1], 1 });
-        }
-
-        sort(events.begin(), events.end());
-
-        vector<vector<int>> res;
-        int active = 0;
-
-        int prevStamp = 0;
-
-        for (vector<int> & event : events) {
-            if (event[1] == 0) {
-                active++;
-                if (active == 1) {
-                    prevStamp = event[0];
-                }
-            } else {
-                active--;
-                if (active == 0) {
-                    res.push_back({ prevStamp, event[0] });
-                }
-            }
-        }
-
-        return res;
-    }
-};
+// Last updated: 4/27/2026, 2:30:48 PM
+1/* 
+2[1, 5]
+3[2, 3]
+4 */
+5class Solution {
+6public:
+7    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+8        sort(intervals.begin(), intervals.end());
+9
+10        vector<vector<int>> res;
+11
+12        for (const vector<int> &interval : intervals) {
+13            if (res.empty()) {
+14                res.push_back(interval);
+15                continue;
+16            }
+17
+18            if (res.back()[1] >= interval[0]) {
+19                res.back()[1] = max(res.back()[1], interval[1]);
+20            } else {
+21                res.push_back(interval);
+22            }
+23        }
+24
+25        return res;
+26    }
+27};
