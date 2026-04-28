@@ -1,43 +1,31 @@
-// Last updated: 3/26/2025, 8:59:43 PM
-class Solution {
-public:
-    int minOperations(vector<vector<int>>& grid, int x) {
-        // Make it into an array.
-        // 2, 0, 2, 4
-        // 4, 2, 0, 2
-        // 20 / 4 = 5.
-
-        // 1, 5, 2, 3 = 11.
-        // 11 / 4 = 2.75
-
-        // Each element has a distance from a particular element. 
-        
-        // Maybe binary search?
-        // Binary search on the number of operations we can do.
-        
-        
-        int n = grid.size();
-        int m = grid[0].size();
-        vector<int> arr(n * m, 0);
-
-        int remainder = grid[0][0] % x;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                arr[i * m + j] = grid[i][j];
-                if (grid[i][j] % x != remainder) {
-                    return -1;
-                }
-            }
-        }  
-        sort(arr.begin(), arr.end());
-        
-        int target = arr[(n * m) / 2];
-
-        int moves = 0;
-        for (int i = 0; i < n * m; i ++) {
-            moves += abs(target - arr[i]) / x;
-        }  
-
-        return moves;
-    }
-};
+// Last updated: 4/28/2026, 3:15:22 PM
+1/* 
+2Make the numbers equal to the median. 
+3 */
+4class Solution {
+5public:
+6    int minOperations(vector<vector<int>>& grid, int x) {
+7        int n = grid.size();
+8        int m = grid[0].size();
+9
+10        vector<int> vec(n*m, 0);
+11        for (int i = 0; i < n; i++) {
+12            for (int j = 0; j < m; j++) {
+13                vec[i*m + j] = grid[i][j];
+14            }
+15        }
+16        sort(vec.begin(), vec.end());
+17
+18        int expectedMod = vec[0] % x;
+19
+20        int res = 0;
+21        for (int i = 0; i < vec.size(); i++) {
+22            if ((vec[i] % x) != expectedMod) {
+23                return -1;
+24            }
+25            res += (abs(vec[i] - vec[n*m / 2]) / x);
+26        }
+27
+28        return res;
+29    }
+30};
